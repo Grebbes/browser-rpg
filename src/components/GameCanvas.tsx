@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import { screenHeight, screenWidth, tileSize } from "../game/constants";
+import { screenHeight, screenWidth } from "../game/constants";
+import { Game } from "../game/game";
 import styles from "./GameCanvas.module.css";
 
 function GameCanva() {
@@ -12,11 +13,8 @@ function GameCanva() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, screenWidth, screenHeight);
-
-    ctx.fillStyle = "white";
-    ctx.fillRect(tileSize, tileSize, tileSize, tileSize);
+    const game = new Game(ctx);
+    game.draw();
   }, []);
 
   return (
