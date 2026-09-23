@@ -1,4 +1,5 @@
 import { screenHeight, screenWidth, tileSize } from "./constants";
+import { Input } from "./Input";
 
 export class Game {
   private ctx: CanvasRenderingContext2D;
@@ -9,6 +10,12 @@ export class Game {
   private fps = 60;
   private drawInterval = 1000 / this.fps;
   private delta = 0;
+
+  private input = new Input();
+
+  private playerX = 100;
+  private playerY = 100;
+  private playerSpeed = 4;
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -24,6 +31,7 @@ export class Game {
       cancelAnimationFrame(this.animationId);
       this.animationId = null;
     }
+    this.input.destroy();
   }
 
   private loop = (currentTime: number) => {
@@ -32,6 +40,7 @@ export class Game {
     this.lastTime = currentTime;
 
     if (this.delta >= 1) {
+      this.update();
       this.draw();
       this.drawCount++;
       this.delta--;
@@ -46,11 +55,23 @@ export class Game {
     this.animationId = requestAnimationFrame(this.loop);
   };
 
+  private update() {
+    if (this.input.upPressed) {
+      this.playerY -= this.playerSpeed;
+    } else if (this.input.downPressed) {
+      this.playerY += this.playerSpeed;
+    } else if (this.input.leftPressed) {
+      this.playerX -= this.playerSpeed;
+    } else if (this.input.rightPressed) {
+      this.playerX += this.playerSpeed;
+    }
+  }
+
   draw() {
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, screenWidth, screenHeight);
 
     this.ctx.fillStyle = "white";
-    this.ctx.fillRect(100, 100, tileSize, tileSize);
+    this.ctx.fillRect(this.playerX, this.playerY, tileSize, tileSize);
   }
 }
