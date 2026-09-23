@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { screenHeight, screenWidth } from "../game/constants";
-import { Game } from "../game/game";
+import { Game } from "../game/Game";
 import styles from "./GameCanvas.module.css";
 
-function GameCanva() {
+function GameCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -14,7 +14,9 @@ function GameCanva() {
     if (!ctx) return;
 
     const game = new Game(ctx);
-    game.draw();
+    game.start();
+
+    return () => game.stop();
   }, []);
 
   return (
@@ -27,4 +29,4 @@ function GameCanva() {
   );
 }
 
-export default GameCanva;
+export default GameCanvas;
