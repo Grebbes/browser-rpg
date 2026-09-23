@@ -1,4 +1,5 @@
 import { screenHeight, screenWidth, tileSize } from "./constants";
+import { Player } from "./entities/Player";
 import { Input } from "./Input";
 
 export class Game {
@@ -13,9 +14,7 @@ export class Game {
 
   private input = new Input();
 
-  private playerX = 100;
-  private playerY = 100;
-  private playerSpeed = 4;
+  private player = new Player(this.input);
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -56,15 +55,7 @@ export class Game {
   };
 
   private update() {
-    if (this.input.upPressed) {
-      this.playerY -= this.playerSpeed;
-    } else if (this.input.downPressed) {
-      this.playerY += this.playerSpeed;
-    } else if (this.input.leftPressed) {
-      this.playerX -= this.playerSpeed;
-    } else if (this.input.rightPressed) {
-      this.playerX += this.playerSpeed;
-    }
+    this.player.update();
   }
 
   draw() {
@@ -72,6 +63,6 @@ export class Game {
     this.ctx.fillRect(0, 0, screenWidth, screenHeight);
 
     this.ctx.fillStyle = "white";
-    this.ctx.fillRect(this.playerX, this.playerY, tileSize, tileSize);
+    this.ctx.fillRect(this.player.x, this.player.y, tileSize, tileSize);
   }
 }
