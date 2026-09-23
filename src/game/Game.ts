@@ -1,4 +1,4 @@
-import { screenHeight, screenWidth, tileSize } from "./constants";
+import { screenHeight, screenWidth } from "./constants";
 import { Player } from "./entities/Player";
 import { Input } from "./Input";
 
@@ -62,7 +62,6 @@ export class Game {
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, screenWidth, screenHeight);
 
-    this.ctx.fillStyle = "white";
-    this.ctx.fillRect(this.player.x, this.player.y, tileSize, tileSize);
+    this.player.draw(this.ctx);
   }
 }

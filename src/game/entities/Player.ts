@@ -1,3 +1,4 @@
+import { tileSize } from "../constants";
 import { Input } from "../Input";
 import { Entity } from "./Entity";
 
@@ -26,5 +27,10 @@ export class Player extends Entity {
     } else if (this.input.rightPressed) {
       this.x += this.speed;
     }
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    ctx.fillStyle = "white";
+    ctx.fillRect(this.x, this.y, tileSize, tileSize);
   }
 }

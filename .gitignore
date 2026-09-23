@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# RyiSnows bilder – får inte publiceras (ska bytas mot egna)
+public/sprites/
