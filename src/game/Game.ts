@@ -18,6 +18,7 @@ export class Game {
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
+    this.ctx.imageSmoothingEnabled = false;
   }
 
   start() {
