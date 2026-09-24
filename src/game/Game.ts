@@ -1,6 +1,7 @@
 import { screenHeight, screenWidth } from "./constants";
 import { Player } from "./entities/Player";
 import { Input } from "./Input";
+import { TileManager } from "./tiles/TileManager";
 
 export class Game {
   private ctx: CanvasRenderingContext2D;
@@ -13,8 +14,8 @@ export class Game {
   private delta = 0;
 
   private input = new Input();
-
   private player = new Player(this.input);
+  private tileM = new TileManager();
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -63,6 +64,7 @@ export class Game {
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, screenWidth, screenHeight);
 
+    this.tileM.draw(this.ctx);
     this.player.draw(this.ctx);
   }
 }
