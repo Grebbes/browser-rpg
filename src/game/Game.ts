@@ -64,7 +64,7 @@ export class Game {
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, screenWidth, screenHeight);
 
-    this.tileM.draw(this.ctx);
+    this.tileM.draw(this.ctx, this.player);
     this.player.draw(this.ctx);
   }
 }

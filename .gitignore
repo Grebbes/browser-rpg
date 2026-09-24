@@ -25,3 +25,6 @@ dist-ssr
 
 # RyiSnows bilder – får inte publiceras (ska bytas mot egna)
 public/sprites/
+
+# RyiSnows världskarta – får inte publiceras (ska bytas mot egen)
+src/game/maps/world01.txt

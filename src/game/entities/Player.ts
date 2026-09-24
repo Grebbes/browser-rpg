@@ -1,9 +1,11 @@
-import { tileSize } from "../constants";
+import { screenHeight, screenWidth, tileSize } from "../constants";
 import { Input } from "../Input";
 import { Entity } from "./Entity";
 
 export class Player extends Entity {
   private input: Input;
+  readonly screenX = screenWidth / 2 - tileSize / 2;
+  readonly screenY = screenHeight / 2 - tileSize / 2;
 
   constructor(input: Input) {
     super();
@@ -13,8 +15,8 @@ export class Player extends Entity {
   }
 
   setDefaultValues() {
-    this.x = 100;
-    this.y = 100;
+    this.worldX = tileSize * 23;
+    this.worldY = tileSize * 21;
     this.speed = 4;
 
     this.direction = "down";
@@ -40,16 +42,16 @@ export class Player extends Entity {
     ) {
       if (this.input.upPressed) {
         this.direction = "up";
-        this.y -= this.speed;
+        this.worldY -= this.speed;
       } else if (this.input.downPressed) {
         this.direction = "down";
-        this.y += this.speed;
+        this.worldY += this.speed;
       } else if (this.input.leftPressed) {
         this.direction = "left";
-        this.x -= this.speed;
+        this.worldX -= this.speed;
       } else if (this.input.rightPressed) {
         this.direction = "right";
-        this.x += this.speed;
+        this.worldX += this.speed;
       }
 
       this.spriteCounter++;
@@ -85,7 +87,7 @@ export class Player extends Entity {
     }
 
     if (image.complete) {
-      ctx.drawImage(image, this.x, this.y, tileSize, tileSize);
+      ctx.drawImage(image, this.screenX, this.screenY, tileSize, tileSize);
     }
   }
 }

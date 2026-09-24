@@ -1,16 +1,17 @@
-import { maxScreenCol, maxScreenRow, tileSize } from "../constants";
-import map01 from "../maps/map01.txt?raw";
+import { maxWorldCol, maxWorldRow, tileSize } from "../constants";
+import { Player } from "../entities/Player";
+import world01 from "../maps/world01.txt?raw";
 import { Tile } from "./Tile";
 
 export class TileManager {
   tile: Tile[] = [];
-  mapTileNum: number[][] = Array.from({ length: maxScreenCol }, () =>
-    Array(maxScreenRow).fill(0),
+  mapTileNum: number[][] = Array.from({ length: maxWorldCol }, () =>
+    Array(maxWorldRow).fill(0),
   );
 
   constructor() {
     this.getTileImage();
-    this.loadMap(map01);
+    this.loadMap(world01);
   }
 
   getTileImage() {
@@ -22,38 +23,49 @@ export class TileManager {
 
     this.tile[2] = new Tile();
     this.tile[2].image.src = "/sprites/tiles/water.png";
+
+    this.tile[3] = new Tile();
+    this.tile[3].image.src = "/sprites/tiles/earth.png";
+
+    this.tile[4] = new Tile();
+    this.tile[4].image.src = "/sprites/tiles/tree.png";
+
+    this.tile[5] = new Tile();
+    this.tile[5].image.src = "/sprites/tiles/sand.png";
   }
 
   loadMap(mapText: string) {
     const lines = mapText.trim().split("\n");
-    for (let row = 0; row < maxScreenRow; row++) {
+    for (let row = 0; row < maxWorldRow; row++) {
       const numbers = lines[row].trim().split(" ");
 
-      for (let col = 0; col < maxScreenCol; col++) {
+      for (let col = 0; col < maxWorldCol; col++) {
         this.mapTileNum[col][row] = Number(numbers[col]);
       }
     }
   }
 
-  draw(ctx: CanvasRenderingContext2D) {
-    let col = 0;
-    let row = 0;
-    let x = 0;
-    let y = 0;
+  draw(ctx: CanvasRenderingContext2D, player: Player) {
+    let worldCol = 0;
+    let worldRow = 0;
 
-    while (col < maxScreenCol && row < maxScreenRow) {
-      const tileNum = this.mapTileNum[col][row];
+    while (worldCol < maxWorldCol && worldRow < maxWorldRow) {
+      const tileNum = this.mapTileNum[worldCol][worldRow];
+
+      const worldX = worldCol * tileSize;
+      const worldY = worldRow * tileSize;
+      const screenX = worldX - player.worldX + player.screenX;
+      const screenY = worldY - player.worldY + player.screenY;
+
       const image = this.tile[tileNum].image;
       if (image.complete) {
-        ctx.drawImage(image, x, y, tileSize, tileSize);
+        ctx.drawImage(image, screenX, screenY, tileSize, tileSize);
       }
-      col++;
-      x += tileSize;
-      if (col === maxScreenCol) {
-        col = 0;
-        x = 0;
-        row++;
-        y += tileSize;
+
+      worldCol++;
+      if (worldCol === maxWorldCol) {
+        worldCol = 0;
+        worldRow++;
       }
     }
   }

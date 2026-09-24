@@ -1,7 +1,7 @@
 export type Direction = "up" | "down" | "left" | "right";
 export class Entity {
-  x = 0;
-  y = 0;
+  worldX = 0;
+  worldY = 0;
   speed = 0;
   direction: Direction = "down";
 
