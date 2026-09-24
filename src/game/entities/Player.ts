@@ -1,15 +1,19 @@
+import type { CollisionChecker } from "../CollisionChecker";
 import { screenHeight, screenWidth, tileSize } from "../constants";
 import { Input } from "../Input";
 import { Entity } from "./Entity";
 
 export class Player extends Entity {
   private input: Input;
+  private cChecker: CollisionChecker;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
 
-  constructor(input: Input) {
+  constructor(input: Input, cChecker: CollisionChecker) {
     super();
     this.input = input;
+    this.cChecker = cChecker;
+    this.solidArea = { x: 8, y: 16, width: 32, height: 32 };
     this.setDefaultValues();
     this.getPlayerImage();
   }
@@ -42,16 +46,32 @@ export class Player extends Entity {
     ) {
       if (this.input.upPressed) {
         this.direction = "up";
-        this.worldY -= this.speed;
       } else if (this.input.downPressed) {
         this.direction = "down";
-        this.worldY += this.speed;
       } else if (this.input.leftPressed) {
         this.direction = "left";
-        this.worldX -= this.speed;
       } else if (this.input.rightPressed) {
         this.direction = "right";
-        this.worldX += this.speed;
+      }
+
+      this.collisionOn = false;
+      this.cChecker.checkTile(this);
+
+      if (!this.collisionOn) {
+        switch (this.direction) {
+          case "up":
+            this.worldY -= this.speed;
+            break;
+          case "down":
+            this.worldY += this.speed;
+            break;
+          case "left":
+            this.worldX -= this.speed;
+            break;
+          case "right":
+            this.worldX += this.speed;
+            break;
+        }
       }
 
       this.spriteCounter++;

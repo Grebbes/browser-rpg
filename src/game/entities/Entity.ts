@@ -8,6 +8,9 @@ export class Entity {
   spriteCounter = 0;
   spriteNum = 1;
 
+  solidArea = { x: 0, y: 0, width: 0, height: 0 };
+  collisionOn = false;
+
   up1 = new Image();
   up2 = new Image();
   down1 = new Image();

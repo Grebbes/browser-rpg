@@ -1,3 +1,4 @@
+import { CollisionChecker } from "./CollisionChecker";
 import { screenHeight, screenWidth } from "./constants";
 import { Player } from "./entities/Player";
 import { Input } from "./Input";
@@ -14,8 +15,9 @@ export class Game {
   private delta = 0;
 
   private input = new Input();
-  private player = new Player(this.input);
   private tileM = new TileManager();
+  private cChecker = new CollisionChecker(this.tileM);
+  private player = new Player(this.input, this.cChecker);
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
