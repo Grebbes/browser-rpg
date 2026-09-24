@@ -57,9 +57,16 @@ export class TileManager {
       const screenX = worldX - player.worldX + player.screenX;
       const screenY = worldY - player.worldY + player.screenY;
 
-      const image = this.tile[tileNum].image;
-      if (image.complete) {
-        ctx.drawImage(image, screenX, screenY, tileSize, tileSize);
+      if (
+        worldX + tileSize > player.worldX - player.screenX &&
+        worldX - tileSize < player.worldX + player.screenX &&
+        worldY + tileSize > player.worldY - player.screenY &&
+        worldY - tileSize < player.worldY + player.screenY
+      ) {
+        const image = this.tile[tileNum].image;
+        if (image.complete) {
+          ctx.drawImage(image, screenX, screenY, tileSize, tileSize);
+        }
       }
 
       worldCol++;
