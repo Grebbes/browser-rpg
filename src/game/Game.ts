@@ -1,7 +1,9 @@
+import { AssetSetter } from "./AssetSetter";
 import { CollisionChecker } from "./CollisionChecker";
 import { screenHeight, screenWidth } from "./constants";
 import { Player } from "./entities/Player";
 import { Input } from "./Input";
+import type { SuperObject } from "./objects/SuperObject";
 import { TileManager } from "./tiles/TileManager";
 
 export class Game {
@@ -13,18 +15,24 @@ export class Game {
   private fps = 60;
   private drawInterval = 1000 / this.fps;
   private delta = 0;
-
   private input = new Input();
   private tileM = new TileManager();
   private cChecker = new CollisionChecker(this.tileM);
   private player = new Player(this.input, this.cChecker);
+  private obj: (SuperObject | null)[] = Array(10).fill(null);
+  private aSetter = new AssetSetter(this.obj);
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
     this.ctx.imageSmoothingEnabled = false;
   }
 
+  setupGame() {
+    this.aSetter.setObject();
+  }
+
   start() {
+    this.setupGame();
     this.lastTime = performance.now();
     this.animationId = requestAnimationFrame(this.loop);
   }
@@ -67,6 +75,9 @@ export class Game {
     this.ctx.fillRect(0, 0, screenWidth, screenHeight);
 
     this.tileM.draw(this.ctx, this.player);
+    for (const o of this.obj) {
+      if (o) o.draw(this.ctx, this.player);
+    }
     this.player.draw(this.ctx);
   }
 }
