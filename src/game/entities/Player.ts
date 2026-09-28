@@ -2,6 +2,7 @@ import type { CollisionChecker } from "../CollisionChecker";
 import { screenHeight, screenWidth, tileSize } from "../constants";
 import { Input } from "../Input";
 import { SuperObject } from "../objects/SuperObject";
+import { UI } from "../UI";
 import { Entity } from "./Entity";
 
 export class Player extends Entity {
@@ -9,7 +10,8 @@ export class Player extends Entity {
   private cChecker: CollisionChecker;
   private obj: (SuperObject | null)[];
   private playSe: (i: number) => void;
-  hasKeys = 0;
+  private ui: UI;
+  hasKeys = 4;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
 
@@ -18,6 +20,7 @@ export class Player extends Entity {
     cChecker: CollisionChecker,
     obj: (SuperObject | null)[],
     playSe: (i: number) => void,
+    ui: UI,
   ) {
     super();
     this.input = input;
@@ -27,6 +30,7 @@ export class Player extends Entity {
     this.getPlayerImage();
     this.obj = obj;
     this.playSe = playSe;
+    this.ui = ui;
   }
 
   setDefaultValues() {
@@ -113,17 +117,17 @@ export class Player extends Entity {
         this.playSe(1);
         this.hasKeys++;
         this.obj[i] = null;
-        console.log("key has been added to inventory", this.hasKeys);
+        this.ui.showMessage("You got a key!");
         break;
 
       case "Door":
         if (this.hasKeys > 0) {
           this.playSe(3);
           this.obj[i] = null;
-          console.log("you open the door");
+          this.ui.showMessage("You oppened the door!");
           this.hasKeys--;
         } else {
-          console.log("You need a key to open the door");
+          this.ui.showMessage("The door is locked");
         }
         console.log("you now have", this.hasKeys);
         break;
@@ -132,11 +136,11 @@ export class Player extends Entity {
         this.playSe(2);
         this.speed += 1;
         this.obj[i] = null;
-        console.log("speed", this.speed);
+        this.ui.showMessage("You feel faster!");
         break;
 
       case "Chest":
-        console.log("you found the chest");
+        this.ui.gameFinished = true;
         break;
     }
   }

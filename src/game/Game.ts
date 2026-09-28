@@ -6,6 +6,7 @@ import { Input } from "./Input";
 import type { SuperObject } from "./objects/SuperObject";
 import { Sound } from "./Sound";
 import { TileManager } from "./tiles/TileManager";
+import { UI } from "./UI";
 
 export class Game {
   private ctx: CanvasRenderingContext2D;
@@ -21,8 +22,13 @@ export class Game {
   private tileM = new TileManager();
   private cChecker = new CollisionChecker(this.tileM, this.obj);
   private aSetter = new AssetSetter(this.obj);
-  private player = new Player(this.input, this.cChecker, this.obj, (i) =>
-    this.playSe(i),
+  private ui = new UI();
+  private player = new Player(
+    this.input,
+    this.cChecker,
+    this.obj,
+    (i) => this.playSe(i),
+    this.ui,
   );
   private music = new Sound();
   private se = new Sound();
@@ -70,6 +76,12 @@ export class Game {
       this.timer = 0;
     }
 
+    if (this.ui.gameFinished) {
+      this.stopMusic();
+      this.playSe(4);
+      return;
+    }
+
     this.animationId = requestAnimationFrame(this.loop);
   };
 
@@ -93,6 +105,7 @@ export class Game {
       if (o) o.draw(this.ctx, this.player);
     }
     this.player.draw(this.ctx);
+    this.ui.draw(this.ctx, this.player);
   }
 
   playMusic(i: number) {
