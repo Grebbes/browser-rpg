@@ -1,4 +1,5 @@
 import { tileSize } from "./constants";
+import { BootsObject } from "./objects/BootsObject";
 import { ChestObject } from "./objects/ChestObject";
 import { DoorObject } from "./objects/DoorObject";
 import { KeyObject } from "./objects/KeyObject";
@@ -25,5 +26,6 @@ export class AssetSetter {
     this.place(4, new DoorObject(), 8, 28);
     this.place(5, new DoorObject(), 12, 22);
     this.place(6, new ChestObject(), 10, 7);
+    this.place(7, new BootsObject(), 37, 42);
   }
 }

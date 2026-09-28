@@ -8,6 +8,7 @@ export class Player extends Entity {
   private input: Input;
   private cChecker: CollisionChecker;
   private obj: (SuperObject | null)[];
+  private playSe: (i: number) => void;
   hasKeys = 0;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
@@ -16,6 +17,7 @@ export class Player extends Entity {
     input: Input,
     cChecker: CollisionChecker,
     obj: (SuperObject | null)[],
+    playSe: (i: number) => void,
   ) {
     super();
     this.input = input;
@@ -24,6 +26,7 @@ export class Player extends Entity {
     this.setDefaultValues();
     this.getPlayerImage();
     this.obj = obj;
+    this.playSe = playSe;
   }
 
   setDefaultValues() {
@@ -107,6 +110,7 @@ export class Player extends Entity {
 
     switch (o.name) {
       case "Key":
+        this.playSe(1);
         this.hasKeys++;
         this.obj[i] = null;
         console.log("key has been added to inventory", this.hasKeys);
@@ -114,6 +118,7 @@ export class Player extends Entity {
 
       case "Door":
         if (this.hasKeys > 0) {
+          this.playSe(3);
           this.obj[i] = null;
           console.log("you open the door");
           this.hasKeys--;
@@ -121,6 +126,13 @@ export class Player extends Entity {
           console.log("You need a key to open the door");
         }
         console.log("you now have", this.hasKeys);
+        break;
+
+      case "Boots":
+        this.playSe(2);
+        this.speed += 1;
+        this.obj[i] = null;
+        console.log("speed", this.speed);
         break;
 
       case "Chest":

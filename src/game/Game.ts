@@ -4,6 +4,7 @@ import { screenHeight, screenWidth } from "./constants";
 import { Player } from "./entities/Player";
 import { Input } from "./Input";
 import type { SuperObject } from "./objects/SuperObject";
+import { Sound } from "./Sound";
 import { TileManager } from "./tiles/TileManager";
 
 export class Game {
@@ -20,7 +21,12 @@ export class Game {
   private tileM = new TileManager();
   private cChecker = new CollisionChecker(this.tileM, this.obj);
   private aSetter = new AssetSetter(this.obj);
-  private player = new Player(this.input, this.cChecker, this.obj);
+  private player = new Player(this.input, this.cChecker, this.obj, (i) =>
+    this.playSe(i),
+  );
+  private music = new Sound();
+  private se = new Sound();
+  private musicStarted = false;
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -42,6 +48,7 @@ export class Game {
       cancelAnimationFrame(this.animationId);
       this.animationId = null;
     }
+    this.stopMusic();
     this.input.destroy();
   }
 
@@ -67,6 +74,13 @@ export class Game {
   };
 
   private update() {
+    if (!this.musicStarted) {
+      const i = this.input;
+      if (i.upPressed || i.downPressed || i.leftPressed || i.rightPressed) {
+        this.playMusic(0);
+        this.musicStarted = true;
+      }
+    }
     this.player.update();
   }
 
@@ -79,5 +93,19 @@ export class Game {
       if (o) o.draw(this.ctx, this.player);
     }
     this.player.draw(this.ctx);
+  }
+
+  playMusic(i: number) {
+    this.music.setFile(i);
+    this.music.play();
+    this.music.loop();
+  }
+
+  stopMusic() {
+    this.music.stop();
+  }
+  playSe(i: number) {
+    this.se.setFile(i);
+    this.se.play();
   }
 }
