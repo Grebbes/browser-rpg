@@ -5,5 +5,6 @@ export class DoorObject extends SuperObject {
     super();
     this.name = "Door";
     this.image.src = "/sprites/objects/door.png";
+    this.collision = true;
   }
 }

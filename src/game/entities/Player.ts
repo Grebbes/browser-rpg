@@ -1,21 +1,29 @@
 import type { CollisionChecker } from "../CollisionChecker";
 import { screenHeight, screenWidth, tileSize } from "../constants";
 import { Input } from "../Input";
+import { SuperObject } from "../objects/SuperObject";
 import { Entity } from "./Entity";
 
 export class Player extends Entity {
   private input: Input;
   private cChecker: CollisionChecker;
+  private obj: (SuperObject | null)[];
+  hasKeys = 0;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
 
-  constructor(input: Input, cChecker: CollisionChecker) {
+  constructor(
+    input: Input,
+    cChecker: CollisionChecker,
+    obj: (SuperObject | null)[],
+  ) {
     super();
     this.input = input;
     this.cChecker = cChecker;
     this.solidArea = { x: 8, y: 16, width: 32, height: 32 };
     this.setDefaultValues();
     this.getPlayerImage();
+    this.obj = obj;
   }
 
   setDefaultValues() {
@@ -57,6 +65,9 @@ export class Player extends Entity {
       this.collisionOn = false;
       this.cChecker.checkTile(this);
 
+      const objectIndex = this.cChecker.checkObject(this, true);
+      this.pickUpObject(objectIndex);
+
       if (!this.collisionOn) {
         switch (this.direction) {
           case "up":
@@ -86,6 +97,35 @@ export class Player extends Entity {
     } else {
       this.spriteNum = 1;
       this.spriteCounter = 0;
+    }
+  }
+
+  pickUpObject(i: number | null) {
+    if (i === null) return;
+    const o = this.obj[i];
+    if (!o) return;
+
+    switch (o.name) {
+      case "Key":
+        this.hasKeys++;
+        this.obj[i] = null;
+        console.log("key has been added to inventory", this.hasKeys);
+        break;
+
+      case "Door":
+        if (this.hasKeys > 0) {
+          this.obj[i] = null;
+          console.log("you open the door");
+          this.hasKeys--;
+        } else {
+          console.log("You need a key to open the door");
+        }
+        console.log("you now have", this.hasKeys);
+        break;
+
+      case "Chest":
+        console.log("you found the chest");
+        break;
     }
   }
 

@@ -16,11 +16,11 @@ export class Game {
   private drawInterval = 1000 / this.fps;
   private delta = 0;
   private input = new Input();
-  private tileM = new TileManager();
-  private cChecker = new CollisionChecker(this.tileM);
-  private player = new Player(this.input, this.cChecker);
   private obj: (SuperObject | null)[] = Array(10).fill(null);
+  private tileM = new TileManager();
+  private cChecker = new CollisionChecker(this.tileM, this.obj);
   private aSetter = new AssetSetter(this.obj);
+  private player = new Player(this.input, this.cChecker, this.obj);
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;

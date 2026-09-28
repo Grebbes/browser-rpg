@@ -1,5 +1,5 @@
 import { tileSize } from "../constants";
-import { Player } from "../entities/Player";
+import type { Player } from "../entities/Player";
 
 export class SuperObject {
   image = new Image();
@@ -7,6 +7,8 @@ export class SuperObject {
   collision = false;
   worldX = 0;
   worldY = 0;
+
+  solidArea = { x: 0, y: 0, height: tileSize, width: tileSize };
 
   draw(ctx: CanvasRenderingContext2D, player: Player) {
     const screenX = this.worldX - player.worldX + player.screenX;
