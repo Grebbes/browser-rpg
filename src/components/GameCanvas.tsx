@@ -3,8 +3,13 @@ import { screenHeight, screenWidth } from "../game/constants";
 import { Game } from "../game/Game";
 import styles from "./GameCanvas.module.css";
 
-function GameCanvas() {
+type Props = {
+  paused: boolean;
+};
+
+function GameCanvas({ paused }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const gameRef = useRef<Game | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -14,10 +19,19 @@ function GameCanvas() {
     if (!ctx) return;
 
     const game = new Game(ctx);
+    gameRef.current = game;
     game.start();
 
-    return () => game.stop();
+    return () => {
+      game.stop();
+      gameRef.current = null;
+    };
   }, []);
+
+  useEffect(() => {
+    if (paused) gameRef.current?.pause();
+    else gameRef.current?.resume();
+  }, [paused]);
 
   return (
     <canvas

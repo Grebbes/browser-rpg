@@ -3,6 +3,7 @@ import PixelButton from "@/components/pixel/PixelButton";
 import PixelImage from "@/components/pixel/PixelImage";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
+import { useNavigate } from "react-router";
 
 type Slot =
   | { id: number; empty: true }
@@ -16,7 +17,7 @@ const slots: Slot[] = [
 ];
 
 export default function SaveSlotsPage() {
-  // TODO (tillsammans): vald sparplats med W/S
+  const navigate = useNavigate();
   const selected = 0;
 
   return (
@@ -42,8 +43,12 @@ export default function SaveSlotsPage() {
                 <span className="grow font-body text-3xl text-muted-foreground">
                   Empty
                 </span>
-                {/* TODO (tillsammans): starta nytt spel i den här platsen */}
-                <PixelButton variant="success">New game</PixelButton>
+                <PixelButton
+                  variant="success"
+                  onClick={() => navigate("/play")}
+                >
+                  New game
+                </PixelButton>
               </PixelPanel>
             ) : (
               <PixelPanel
@@ -73,15 +78,18 @@ export default function SaveSlotsPage() {
                   </span>
                 </div>
                 {/* TODO (M7): ladda / ta bort sparningen */}
-                <PixelButton variant="primary">Load</PixelButton>
+                <PixelButton
+                  variant="primary"
+                  onClick={() => navigate("/play")}
+                >
+                  Load
+                </PixelButton>
                 <PixelButton variant="danger">Delete</PixelButton>
               </PixelPanel>
             ),
           )}
         </div>
-
-        {/* TODO (tillsammans): tillbaka till startsidan */}
-        <BackButton />
+        <BackButton onClick={() => navigate("/")} />
       </div>
     </div>
   );

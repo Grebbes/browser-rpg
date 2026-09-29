@@ -3,6 +3,7 @@ import KeyCap from "@/components/pixel/KeyCap";
 import PixelImage from "@/components/pixel/PixelImage";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
+import { useNavigate } from "react-router";
 
 const quest = [
   "Explore the map and find the 3 hidden keys.",
@@ -19,6 +20,7 @@ const items = [
 ];
 
 export default function HowToPlayPage() {
+  const navigate = useNavigate();
   return (
     <div className="relative isolate flex min-h-screen w-full flex-col gap-10 px-6 py-12 md:px-20 md:py-16">
       <ScreenBackground src="/ui/menu-bg.png" />
@@ -77,9 +79,7 @@ export default function HowToPlayPage() {
           ))}
         </PixelPanel>
       </div>
-
-      {/* TODO (tillsammans): tillbaka till startsidan */}
-      <BackButton />
+      <BackButton onClick={() => navigate("/")} />
     </div>
   );
 }

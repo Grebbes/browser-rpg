@@ -1,17 +1,34 @@
 import MenuItem from "@/components/pixel/MenuItem";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import StartScene from "@/components/StartScene";
+import { useNavigate } from "react-router";
 
-const menuItems = ["NEW GAME", "CONTINUE", "HOW TO PLAY", "SETTINGS"] as const;
+const menuItems = [
+  {
+    label: "NEW GAME",
+    path: "/save-slot-page",
+  },
+  {
+    label: "CONTINUE",
+    path: "/save-slot-page",
+  },
+  {
+    label: "HOW TO PLAY",
+    path: "/how-to-play",
+  },
+  {
+    label: "SETTINGS",
+    path: "/settings-page",
+  },
+];
 
 export default function StartPage() {
-  // TODO (tillsammans): useState för vald rad + W/S/Enter med useEffect
+  const navigate = useNavigate();
   const selected = 0;
 
   return (
     <div className="relative isolate flex min-h-screen w-full flex-col items-center gap-12 px-4 pt-20 pb-24">
       <StartScene />
-
       <header className="flex flex-col items-center gap-4 text-center">
         <h1 className="text-4xl tracking-wide text-primary [text-shadow:6px_6px_0_#a83800,10px_10px_0_#0b0b14] md:text-6xl">
           BROWSER RPG
@@ -27,9 +44,13 @@ export default function StartPage() {
         aria-label="Main menu"
         className="flex w-full max-w-md flex-col gap-2 px-6 py-7"
       >
-        {menuItems.map((label, i) => (
-          // TODO (tillsammans): onSelect navigerar till rätt sida
-          <MenuItem key={label} label={label} selected={i === selected} />
+        {menuItems.map((item, i) => (
+          <MenuItem
+            key={item.label}
+            label={item.label}
+            selected={i === selected}
+            onSelect={() => navigate(item.path)}
+          />
         ))}
       </PixelPanel>
 

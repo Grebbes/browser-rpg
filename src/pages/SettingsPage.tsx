@@ -3,6 +3,7 @@ import KeyCap from "@/components/pixel/KeyCap";
 import PixelButton from "@/components/pixel/PixelButton";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
+import { useNavigate } from "react-router";
 
 const controls = [
   { action: "MOVE UP", key: "W" },
@@ -13,6 +14,7 @@ const controls = [
 ];
 
 export default function SettingsPage() {
+  const navigate = useNavigate();
   return (
     <div className="relative isolate flex min-h-screen w-full flex-col gap-11 px-6 py-12 md:px-20 md:py-16">
       <ScreenBackground src="/ui/menu-bg.png" />
@@ -80,8 +82,7 @@ export default function SettingsPage() {
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-6">
-        {/* TODO (tillsammans): tillbaka dit man kom ifrån (start eller paus) */}
-        <BackButton />
+        <BackButton onClick={() => navigate("/")} />
         <PixelButton variant="primary">Reset defaults</PixelButton>
       </div>
     </div>

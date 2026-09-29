@@ -33,6 +33,7 @@ export class Game {
   private music = new Sound();
   private se = new Sound();
   private musicStarted = false;
+  private paused = false;
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -56,6 +57,26 @@ export class Game {
     }
     this.stopMusic();
     this.input.destroy();
+  }
+
+  pause() {
+    if (this.paused) return;
+    this.paused = true;
+
+    if (this.animationId !== null) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
+    }
+    this.music.pause();
+  }
+
+  resume() {
+    if (!this.paused) return;
+    this.paused = false;
+
+    this.lastTime = performance.now();
+    this.animationId = requestAnimationFrame(this.loop);
+    if (this.musicStarted) this.music.play();
   }
 
   private loop = (currentTime: number) => {

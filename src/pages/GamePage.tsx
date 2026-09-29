@@ -1,16 +1,36 @@
 import GameCanvas from "@/components/GameCanvas";
+import PauseMenu from "@/components/PauseMenu";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function GamePage() {
+  const [paused, setPaused] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setPaused((p) => !p);
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <div className="relative isolate flex min-h-screen w-full flex-col items-center justify-center gap-7 px-4 py-8">
       <ScreenBackground src="/ui/game-bg.png" />
 
-      {/* "relative" så att HUD och pausmeny kan läggas ovanpå canvasen */}
       <div className="relative pixel-border">
-        <GameCanvas />
-        {/* TODO (tillsammans): <Hud keys={...} message={...} /> när HUD:en flyttas från canvas */}
-        {/* TODO (tillsammans): <PauseMenu open={...} /> som öppnas med ESC */}
+        <GameCanvas paused={paused} />
+
+        <PauseMenu
+          open={paused}
+          onResume={() => setPaused(false)}
+          onMainMenu={() => navigate("/")}
+        />
       </div>
 
       <p className="flex gap-10 font-body text-2xl text-muted-foreground">

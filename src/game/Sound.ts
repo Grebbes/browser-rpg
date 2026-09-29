@@ -30,4 +30,8 @@ export class Sound {
     this.audio.pause();
     this.audio.currentTime = 0;
   }
+
+  pause() {
+    this.audio?.pause();
+  }
 }

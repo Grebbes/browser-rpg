@@ -4,15 +4,24 @@ import PixelPanel from "@/components/pixel/PixelPanel";
 type Props = {
   open: boolean;
   selected?: number;
+  onResume: () => void;
+  onMainMenu: () => void;
 };
 
-const items = ["RESUME", "SAVE GAME", "SETTINGS", "MAIN MENU"] as const;
-
-// Pausmenyn: mörkar ner spelet och visar en ruta i mitten.
-// Läggs i samma "relative"-element som canvasen (se GamePage).
-// TODO (tillsammans): open styrs av ESC, selected av W/S, onSelect gör något.
-export default function PauseMenu({ open, selected = 0 }: Props) {
+export default function PauseMenu({
+  open,
+  selected = 0,
+  onResume,
+  onMainMenu,
+}: Props) {
   if (!open) return null;
+
+  const items = [
+    { label: "RESUME", onSelect: onResume },
+    { label: "SAVE GAME", onSelect: undefined },
+    { label: "SETTINGS", onSelect: undefined },
+    { label: "MAIN MENU", onSelect: onMainMenu },
+  ];
 
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-background/70">
@@ -28,8 +37,13 @@ export default function PauseMenu({ open, selected = 0 }: Props) {
         >
           PAUSED
         </h2>
-        {items.map((label, i) => (
-          <MenuItem key={label} label={label} selected={i === selected} />
+        {items.map((item, i) => (
+          <MenuItem
+            key={item.label}
+            label={item.label}
+            selected={i === selected}
+            onSelect={item.onSelect}
+          />
         ))}
       </PixelPanel>
     </div>
