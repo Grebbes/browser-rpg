@@ -1,6 +1,7 @@
 import MenuItem from "@/components/pixel/MenuItem";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import StartScene from "@/components/StartScene";
+import { useMenuKeys } from "@/hooks/useMenuKeys";
 import { useNavigate } from "react-router";
 
 const menuItems = [
@@ -24,7 +25,9 @@ const menuItems = [
 
 export default function StartPage() {
   const navigate = useNavigate();
-  const selected = 0;
+  const selected = useMenuKeys(menuItems.length, (i) => {
+    navigate(menuItems[i].path);
+  });
 
   return (
     <div className="relative isolate flex min-h-screen w-full flex-col items-center gap-12 px-4 pt-20 pb-24">
