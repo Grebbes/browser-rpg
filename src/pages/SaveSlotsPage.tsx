@@ -3,13 +3,13 @@ import PixelButton from "@/components/pixel/PixelButton";
 import PixelImage from "@/components/pixel/PixelImage";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
+import { useMenuKeys } from "@/hooks/useMenuKeys";
 import { useNavigate } from "react-router";
 
 type Slot =
   | { id: number; empty: true }
   | { id: number; empty: false; keys: number; doors: string; savedAt: string };
 
-// TODO (M7): riktig data från saveService i stället för exempeldata
 const slots: Slot[] = [
   { id: 1, empty: false, keys: 2, doors: "1/3", savedAt: "2026-09-28 18:20" },
   { id: 2, empty: false, keys: 0, doors: "3/3", savedAt: "2026-09-27 21:05" },
@@ -18,7 +18,11 @@ const slots: Slot[] = [
 
 export default function SaveSlotsPage() {
   const navigate = useNavigate();
-  const selected = 0;
+  const selected = useMenuKeys(
+    slots.length,
+    () => navigate("/play"),
+    () => navigate("/"),
+  );
 
   return (
     <div className="relative isolate flex min-h-screen w-full flex-col items-center gap-9 px-6 py-12 md:py-16">
@@ -34,10 +38,12 @@ export default function SaveSlotsPage() {
             slot.empty ? (
               <PixelPanel
                 key={slot.id}
-                tone="muted"
+                tone={i === selected ? "gold" : "muted"}
                 className="flex flex-wrap items-center gap-7 bg-background px-7 py-6"
               >
-                <span className="w-24 text-base text-muted-foreground">
+                <span
+                  className={`w-24 text-base ${i === selected ? "text-primary" : "text-muted-foreground"}`}
+                >
                   SLOT {slot.id}
                 </span>
                 <span className="grow font-body text-3xl text-muted-foreground">
@@ -90,6 +96,9 @@ export default function SaveSlotsPage() {
           )}
         </div>
         <BackButton onClick={() => navigate("/")} />
+        <p className="text-center font-body text-2xl text-muted-foreground">
+          W / S to choose · ENTER to select · BACKSPACE to go back
+        </p>
       </div>
     </div>
   );

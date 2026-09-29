@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { useBackKey } from "./useBackKey";
 
 export function useMenuKeys(
   count: number,
   onConfirm: (index: number) => void,
+  onBack?: () => void,
   enable = true,
 ) {
   const [selected, setSelected] = useState(0);
+  useBackKey(() => onBack?.(), enable);
 
   useEffect(() => {
     if (!enable) return;

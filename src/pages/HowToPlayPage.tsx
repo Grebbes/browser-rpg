@@ -3,6 +3,7 @@ import KeyCap from "@/components/pixel/KeyCap";
 import PixelImage from "@/components/pixel/PixelImage";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
+import { useBackKey } from "@/hooks/useBackKey";
 import { useNavigate } from "react-router";
 
 const quest = [
@@ -21,6 +22,7 @@ const items = [
 
 export default function HowToPlayPage() {
   const navigate = useNavigate();
+  useBackKey(() => navigate("/"));
   return (
     <div className="relative isolate flex min-h-screen w-full flex-col gap-10 px-6 py-12 md:px-20 md:py-16">
       <ScreenBackground src="/ui/menu-bg.png" />

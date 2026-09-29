@@ -1,21 +1,14 @@
 import MenuItem from "@/components/pixel/MenuItem";
 import PixelPanel from "@/components/pixel/PixelPanel";
+import { useMenuKeys } from "@/hooks/useMenuKeys";
 
 type Props = {
   open: boolean;
-  selected?: number;
   onResume: () => void;
   onMainMenu: () => void;
 };
 
-export default function PauseMenu({
-  open,
-  selected = 0,
-  onResume,
-  onMainMenu,
-}: Props) {
-  if (!open) return null;
-
+export default function PauseMenu({ open, onResume, onMainMenu }: Props) {
   const items = [
     { label: "RESUME", onSelect: onResume },
     { label: "SAVE GAME", onSelect: undefined },
@@ -23,6 +16,14 @@ export default function PauseMenu({
     { label: "MAIN MENU", onSelect: onMainMenu },
   ];
 
+  const selected = useMenuKeys(
+    items.length,
+    (i) => items[i].onSelect?.(),
+    onResume,
+    open,
+  );
+
+  if (!open) return null;
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-background/70">
       <PixelPanel
