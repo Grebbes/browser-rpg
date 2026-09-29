@@ -4,8 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Pixelram: fyra skuggor ger en 4 px ram med "hackade" hörn som i NES-menyer.
-   Färgen styrs av --pixel-color (vit om inget annat anges). */
 @utility pixel-border {
   --pixel-edge: var(--pixel-color, var(--color-foreground));
   box-shadow:
@@ -15,13 +13,41 @@
     4px 0 0 0 var(--pixel-edge);
 }
 
-/* Skarpa pixlar när en liten bild skalas upp */
 @utility pixelated {
   image-rendering: pixelated;
 }
 
 body {
   line-height: 1.6;
+}
+
+@theme {
+  --animate-hero-idle: hero-idle 1.6s steps(1) infinite;
+  --animate-campfire: campfire 0.6s steps(1) infinite;
+
+  @keyframes hero-idle {
+    0% {
+      background-position: 0% 0;
+    }
+    50% {
+      background-position: 100% 0;
+    }
+  }
+
+  @keyframes campfire {
+    0% {
+      background-position: 0% 0;
+    }
+    25% {
+      background-position: 33.333% 0;
+    }
+    50% {
+      background-position: 66.667% 0;
+    }
+    75% {
+      background-position: 100% 0;
+    }
+  }
 }
 
 @theme inline {
@@ -103,7 +129,6 @@ body {
   --sidebar-border: #6c6c8c;
   --sidebar-ring: #f8b800;
 }
-
 
 @layer base {
   * {
