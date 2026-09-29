@@ -5,6 +5,7 @@ import StartScene from "@/components/StartScene";
 const menuItems = ["NEW GAME", "CONTINUE", "HOW TO PLAY", "SETTINGS"] as const;
 
 export default function StartPage() {
+  // TODO (tillsammans): useState för vald rad + W/S/Enter med useEffect
   const selected = 0;
 
   return (

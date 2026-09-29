@@ -1,24 +1,21 @@
+import { Navigate, Route, Routes } from "react-router";
 import GamePage from "./pages/GamePage";
 import HowToPlayPage from "./pages/HowToPlayPage";
 import SaveSlotsPage from "./pages/SaveSlotsPage";
 import SettingsPage from "./pages/SettingsPage";
 import StartPage from "./pages/StartPage";
 
-// TILLFÄLLIGT: välj sida med # i adressen och ladda om (Cmd + R), t.ex.
-//   localhost:5173/#how-to-play
-// Byts mot React Router, som vi skriver tillsammans.
-const pages = {
-  start: StartPage,
-  "how-to-play": HowToPlayPage,
-  saves: SaveSlotsPage,
-  settings: SettingsPage,
-  game: GamePage,
-};
-
 function App() {
-  const hash = window.location.hash.slice(1);
-  const Page = pages[hash as keyof typeof pages] ?? StartPage;
-  return <Page />;
+  return (
+    <Routes>
+      <Route path="/" element={<StartPage />} />
+      <Route path="/play" element={<GamePage />} />
+      <Route path="/how-to-play" element={<HowToPlayPage />} />
+      <Route path="/save-slot-page" element={<SaveSlotsPage />} />
+      <Route path="/settings-page" element={<SettingsPage />} />
+      <Route path="/*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
 }
 
 export default App;

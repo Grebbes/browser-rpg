@@ -12,7 +12,6 @@ const controls = [
   { action: "PAUSE", key: "ESC" },
 ];
 
-// TODO (M8): värdena sparas och styr ljudet och tangenterna på riktigt
 export default function SettingsPage() {
   return (
     <div className="relative isolate flex min-h-screen w-full flex-col gap-11 px-6 py-12 md:px-20 md:py-16">

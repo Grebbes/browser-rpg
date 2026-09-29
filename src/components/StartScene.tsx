@@ -11,10 +11,8 @@ export default function StartScene() {
           className="absolute inset-0 h-full w-full"
         />
 
-        {/* Hjälten: 2 bilder (står / andas ut) i en sprite sheet på 32×16 */}
         <div className="absolute top-[77.25%] left-[13.75%] h-[16%] w-[10%] bg-[url(/ui/hero-idle.png)] [background-size:200%_100%] pixelated animate-hero-idle motion-reduce:animate-none" />
 
-        {/* Lägerelden: 4 bilder i en sprite sheet på 64×16 */}
         <div className="absolute top-[79.25%] left-[24.375%] h-[16%] w-[10%] bg-[url(/ui/campfire.png)] [background-size:400%_100%] pixelated animate-campfire motion-reduce:animate-none" />
       </div>
     </div>
