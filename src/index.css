@@ -22,14 +22,21 @@ body {
 }
 
 @theme {
-  --animate-hero-idle: hero-idle 1.6s steps(1) infinite;
+  --animate-hero-idle: hero-idle 3.4s steps(1) infinite;
   --animate-campfire: campfire 0.6s steps(1) infinite;
 
+  /* 4 bilder: stå, andas, stå, blinka (blinkningen är kort) */
   @keyframes hero-idle {
     0% {
       background-position: 0% 0;
     }
-    50% {
+    35% {
+      background-position: 33.333% 0;
+    }
+    59% {
+      background-position: 66.667% 0;
+    }
+    94% {
       background-position: 100% 0;
     }
   }
