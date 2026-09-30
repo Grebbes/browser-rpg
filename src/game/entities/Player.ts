@@ -94,7 +94,7 @@ export class Player extends Entity {
 
       this.moving = true;
       this.spriteCounter++;
-      if (this.spriteCounter > 8) {
+      if (this.spriteCounter > 5) {
         this.frame = (this.frame + 1) % 4;
         this.spriteCounter = 0;
       }
@@ -170,4 +170,3 @@ export class Player extends Entity {
     );
   }
 }
-
