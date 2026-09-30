@@ -6,13 +6,19 @@ type Props = {
   open: boolean;
   onResume: () => void;
   onMainMenu: () => void;
+  onSettings: () => void;
 };
 
-export default function PauseMenu({ open, onResume, onMainMenu }: Props) {
+export default function PauseMenu({
+  open,
+  onResume,
+  onMainMenu,
+  onSettings,
+}: Props) {
   const items = [
     { label: "RESUME", onSelect: onResume },
     { label: "SAVE GAME", onSelect: undefined },
-    { label: "SETTINGS", onSelect: undefined },
+    { label: "SETTINGS", onSelect: onSettings },
     { label: "MAIN MENU", onSelect: onMainMenu },
   ];
 

@@ -2,19 +2,23 @@ import GameCanvas from "@/components/GameCanvas";
 import Hud from "@/components/Hud";
 import PauseMenu from "@/components/PauseMenu";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
+import SettingsOverlay from "@/components/SettingsOverlay";
 import type { HudState } from "@/game/types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function GamePage() {
-  const [paused, setPaused] = useState(false);
+  const [overlay, setOverlay] = useState<"none" | "pause" | "settings">("none");
+  const paused = overlay !== "none";
   const [hud, setHud] = useState<HudState>({ keys: 0, message: null });
   const navigate = useNavigate();
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
-        setPaused((p) => !p);
+        setOverlay((o) =>
+          o === "none" ? "pause" : o === "pause" ? "none" : "pause",
+        );
       }
     }
 
@@ -30,9 +34,14 @@ export default function GamePage() {
         <GameCanvas paused={paused} onHudChange={setHud} />
         <Hud keys={hud.keys} message={hud.message} />
         <PauseMenu
-          open={paused}
-          onResume={() => setPaused(false)}
+          open={overlay === "pause"}
+          onResume={() => setOverlay("none")}
+          onSettings={() => setOverlay("settings")}
           onMainMenu={() => navigate("/")}
+        />
+        <SettingsOverlay
+          open={overlay === "settings"}
+          onBack={() => setOverlay("pause")}
         />
       </div>
 
