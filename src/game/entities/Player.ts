@@ -1,9 +1,13 @@
 import type { CollisionChecker } from "../CollisionChecker";
-import { screenHeight, screenWidth, tileSize } from "../constants";
+import { scale, screenHeight, screenWidth, tileSize } from "../constants";
 import { Input } from "../Input";
 import { SuperObject } from "../objects/SuperObject";
 import { UI } from "../UI";
 import { Entity } from "./Entity";
+
+const CELL = 32;
+const ANIM_ROW = { idle: 0, walk: 4, attack: 8, hurt: 12, die: 16 };
+const DIR_ROW = { down: 0, up: 1, left: 2, right: 3 };
 
 export class Player extends Entity {
   private input: Input;
@@ -14,6 +18,9 @@ export class Player extends Entity {
   hasKeys = 0;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
+  private sheet = new Image();
+  private frame = 0;
+  private moving = false;
 
   constructor(
     input: Input,
@@ -42,14 +49,7 @@ export class Player extends Entity {
   }
 
   getPlayerImage() {
-    this.up1.src = "/sprites/player/boy_up_1.png";
-    this.up2.src = "/sprites/player/boy_up_2.png";
-    this.down1.src = "/sprites/player/boy_down_1.png";
-    this.down2.src = "/sprites/player/boy_down_2.png";
-    this.left1.src = "/sprites/player/boy_left_1.png";
-    this.left2.src = "/sprites/player/boy_left_2.png";
-    this.right1.src = "/sprites/player/boy_right_1.png";
-    this.right2.src = "/sprites/player/boy_right_2.png";
+    this.sheet.src = "/sprites/hero/hero-frames-32x32.png";
   }
 
   update() {
@@ -92,18 +92,23 @@ export class Player extends Entity {
         }
       }
 
+      this.moving = true;
       this.spriteCounter++;
-      if (this.spriteCounter > 12) {
-        if (this.spriteNum === 1) {
-          this.spriteNum = 2;
-        } else if (this.spriteNum === 2) {
-          this.spriteNum = 1;
-        }
+      if (this.spriteCounter > 8) {
+        this.frame = (this.frame + 1) % 4;
         this.spriteCounter = 0;
       }
     } else {
-      this.spriteNum = 1;
-      this.spriteCounter = 0;
+      if (this.moving) {
+        this.moving = false;
+        this.frame = 0;
+        this.spriteCounter = 0;
+      }
+      this.spriteCounter++;
+      if (this.spriteCounter > 30) {
+        this.frame = (this.frame + 1) % 4;
+        this.spriteCounter = 0;
+      }
     }
   }
 
@@ -146,24 +151,23 @@ export class Player extends Entity {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    let image = this.down1;
+    if (!this.sheet.complete) return;
 
-    switch (this.direction) {
-      case "up":
-        image = this.spriteNum === 1 ? this.up1 : this.up2;
-        break;
-      case "down":
-        image = this.spriteNum === 1 ? this.down1 : this.down2;
-        break;
-      case "left":
-        image = this.spriteNum === 1 ? this.left1 : this.left2;
-        break;
-      case "right":
-        image = this.spriteNum === 1 ? this.right1 : this.right2;
-    }
+    const anim = this.moving ? "walk" : "idle";
+    const row = ANIM_ROW[anim] + DIR_ROW[this.direction];
+    const frame = this.frame;
 
-    if (image.complete) {
-      ctx.drawImage(image, this.screenX, this.screenY, tileSize, tileSize);
-    }
+    ctx.drawImage(
+      this.sheet,
+      frame * CELL,
+      row * CELL,
+      CELL,
+      CELL,
+      this.screenX - 8 * scale,
+      this.screenY + tileSize - 28 * scale,
+      CELL * scale,
+      CELL * scale,
+    );
   }
 }
+
