@@ -6,6 +6,7 @@ import { Input } from "./Input";
 import type { SuperObject } from "./objects/SuperObject";
 import { Sound } from "./Sound";
 import { TileManager } from "./tiles/TileManager";
+import type { HudState } from "./types";
 import { UI } from "./UI";
 
 export class Game {
@@ -34,9 +35,15 @@ export class Game {
   private se = new Sound();
   private musicStarted = false;
   private paused = false;
+  private onHudChange: (hud: HudState) => void;
+  private lastHud: HudState = { keys: 0, message: null };
 
-  constructor(ctx: CanvasRenderingContext2D) {
+  constructor(
+    ctx: CanvasRenderingContext2D,
+    onHudChange: (hud: HudState) => void,
+  ) {
     this.ctx = ctx;
+    this.onHudChange = onHudChange;
     this.ctx.imageSmoothingEnabled = false;
   }
 
@@ -48,6 +55,7 @@ export class Game {
     this.setupGame();
     this.lastTime = performance.now();
     this.animationId = requestAnimationFrame(this.loop);
+    this.onHudChange({ keys: this.player.hasKeys, message: null });
   }
 
   stop() {
@@ -115,6 +123,23 @@ export class Game {
       }
     }
     this.player.update();
+    this.ui.update();
+    this.syncHud();
+  }
+
+  private syncHud() {
+    const hud: HudState = {
+      keys: this.player.hasKeys,
+      message: this.ui.currentMessage,
+    };
+
+    if (
+      hud.keys !== this.lastHud.keys ||
+      hud.message !== this.lastHud.message
+    ) {
+      this.lastHud = hud;
+      this.onHudChange(hud);
+    }
   }
 
   draw() {
@@ -126,7 +151,7 @@ export class Game {
       if (o) o.draw(this.ctx, this.player);
     }
     this.player.draw(this.ctx);
-    this.ui.draw(this.ctx, this.player);
+    this.ui.draw(this.ctx);
   }
 
   playMusic(i: number) {

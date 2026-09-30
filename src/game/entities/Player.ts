@@ -11,7 +11,7 @@ export class Player extends Entity {
   private obj: (SuperObject | null)[];
   private playSe: (i: number) => void;
   private ui: UI;
-  hasKeys = 4;
+  hasKeys = 0;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
 

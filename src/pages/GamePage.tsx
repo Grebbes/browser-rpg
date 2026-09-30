@@ -1,11 +1,14 @@
 import GameCanvas from "@/components/GameCanvas";
+import Hud from "@/components/Hud";
 import PauseMenu from "@/components/PauseMenu";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
+import type { HudState } from "@/game/types";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function GamePage() {
   const [paused, setPaused] = useState(false);
+  const [hud, setHud] = useState<HudState>({ keys: 0, message: null });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,8 +27,8 @@ export default function GamePage() {
       <ScreenBackground src="/ui/game-bg.png" />
 
       <div className="relative pixel-border">
-        <GameCanvas paused={paused} />
-
+        <GameCanvas paused={paused} onHudChange={setHud} />
+        <Hud keys={hud.keys} message={hud.message} />
         <PauseMenu
           open={paused}
           onResume={() => setPaused(false)}
