@@ -8,6 +8,7 @@ import { Entity } from "./Entity";
 const CELL = 32;
 const ANIM_ROW = { idle: 0, walk: 4, attack: 8, hurt: 12, die: 16 };
 const DIR_ROW = { down: 0, up: 1, left: 2, right: 3 };
+const RUN_TICKS = [7, 5, 7, 5];
 
 export class Player extends Entity {
   private input: Input;
@@ -94,7 +95,7 @@ export class Player extends Entity {
 
       this.moving = true;
       this.spriteCounter++;
-      if (this.spriteCounter > 5) {
+      if (this.spriteCounter >= RUN_TICKS[this.frame]) {
         this.frame = (this.frame + 1) % 4;
         this.spriteCounter = 0;
       }

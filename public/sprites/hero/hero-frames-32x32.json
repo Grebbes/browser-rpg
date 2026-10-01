@@ -2,12 +2,12 @@
  "cell": 32,
  "origin": [
   8,
-  5
+  9
  ],
  "feetY": 28,
  "size": [
   16,
-  23
+  20
  ],
  "anims": {
   "idle_down": {
@@ -26,19 +26,19 @@
    "row": 3,
    "frames": 4
   },
-  "walk_down": {
+  "run_down": {
    "row": 4,
    "frames": 4
   },
-  "walk_up": {
+  "run_up": {
    "row": 5,
    "frames": 4
   },
-  "walk_left": {
+  "run_left": {
    "row": 6,
    "frames": 4
   },
-  "walk_right": {
+  "run_right": {
    "row": 7,
    "frames": 4
   },
