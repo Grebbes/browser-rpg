@@ -4,7 +4,7 @@ import PixelImage from "@/components/pixel/PixelImage";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
 import { useMenuKeys } from "@/hooks/useMenuKeys";
-import { listSaves } from "@/services/saveService";
+import { deleteSave, listSaves } from "@/services/saveService";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -14,7 +14,7 @@ type Slot =
 
 export default function SaveSlotsPage() {
   const navigate = useNavigate();
-  const [saves] = useState(() => listSaves());
+  const [saves, setSaves] = useState(() => listSaves());
 
   const slots: Slot[] = saves.map((save, i) =>
     save
@@ -22,13 +22,13 @@ export default function SaveSlotsPage() {
           id: i + 1,
           empty: false,
           keys: save.player.hasKeys,
-          doors: `${save.removedObjects.filter((o) => o >= 3 && o <= 5).length} / 3`,
+          doors: `${save.removedObjects.filter((o) => o >= 3 && o <= 5).length}/3`,
           savedAt: new Date(save.savedAt).toLocaleString("sv-SE", {
             dateStyle: "short",
             timeStyle: "short",
           }),
         }
-      : { id: 1, empty: true },
+      : { id: i + 1, empty: true },
   );
 
   const selected = useMenuKeys(
@@ -36,6 +36,11 @@ export default function SaveSlotsPage() {
     (i) => navigate(`/play?slot=${slots[i].id}`),
     () => navigate("/"),
   );
+
+  function handleDelete(id: number) {
+    deleteSave(id);
+    setSaves(listSaves());
+  }
 
   return (
     <div className="relative isolate flex min-h-screen w-full flex-col items-center gap-9 px-6 py-12 md:py-16">
@@ -96,14 +101,18 @@ export default function SaveSlotsPage() {
                     Saved {slot.savedAt}
                   </span>
                 </div>
-                {/* TODO (M7): ladda / ta bort sparningen */}
                 <PixelButton
                   variant="primary"
                   onClick={() => navigate(`/play?slot=${slots[i].id}`)}
                 >
                   Load
                 </PixelButton>
-                <PixelButton variant="danger">Delete</PixelButton>
+                <PixelButton
+                  variant="danger"
+                  onClick={() => handleDelete(slot.id)}
+                >
+                  Delete
+                </PixelButton>
               </PixelPanel>
             ),
           )}
