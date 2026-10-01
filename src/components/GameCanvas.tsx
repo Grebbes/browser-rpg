@@ -1,4 +1,5 @@
 import type { HudState } from "@/game/types";
+import type { RefObject } from "react";
 import { useEffect, useRef } from "react";
 import { screenHeight, screenWidth } from "../game/constants";
 import { Game } from "../game/Game";
@@ -7,11 +8,11 @@ import styles from "./GameCanvas.module.css";
 type Props = {
   paused: boolean;
   onHudChange: (hud: HudState) => void;
+  gameRef: RefObject<Game | null>;
 };
 
-function GameCanvas({ paused, onHudChange }: Props) {
+function GameCanvas({ paused, onHudChange, gameRef }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const gameRef = useRef<Game | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -28,12 +29,12 @@ function GameCanvas({ paused, onHudChange }: Props) {
       game.stop();
       gameRef.current = null;
     };
-  }, [onHudChange]);
+  }, [onHudChange, gameRef]);
 
   useEffect(() => {
     if (paused) gameRef.current?.pause();
     else gameRef.current?.resume();
-  }, [paused]);
+  }, [paused, gameRef]);
 
   return (
     <canvas

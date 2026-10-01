@@ -1,12 +1,14 @@
 import MenuItem from "@/components/pixel/MenuItem";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import { useMenuKeys } from "@/hooks/useMenuKeys";
+import { useEffect, useState } from "react";
 
 type Props = {
   open: boolean;
   onResume: () => void;
   onMainMenu: () => void;
   onSettings: () => void;
+  onSave: () => void;
 };
 
 export default function PauseMenu({
@@ -14,10 +16,25 @@ export default function PauseMenu({
   onResume,
   onMainMenu,
   onSettings,
+  onSave,
 }: Props) {
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (!saved) return;
+
+    const timer = setTimeout(() => setSaved(false), 1500);
+    return () => clearTimeout(timer);
+  }, [saved]);
+
+  function handleSave() {
+    onSave();
+    setSaved(true);
+  }
+
   const items = [
     { label: "RESUME", onSelect: onResume },
-    { label: "SAVE GAME", onSelect: undefined },
+    { label: saved ? "SAVED!" : "SAVE GAME", onSelect: handleSave },
     { label: "SETTINGS", onSelect: onSettings },
     { label: "MAIN MENU", onSelect: onMainMenu },
   ];
@@ -46,7 +63,7 @@ export default function PauseMenu({
         </h2>
         {items.map((item, i) => (
           <MenuItem
-            key={item.label}
+            key={i}
             label={item.label}
             selected={i === selected}
             onSelect={item.onSelect}
