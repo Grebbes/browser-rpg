@@ -6,7 +6,7 @@ import { Input } from "./Input";
 import type { SuperObject } from "./objects/SuperObject";
 import { Sound } from "./Sound";
 import { TileManager } from "./tiles/TileManager";
-import type { HudState } from "./types";
+import type { HudState, SaveData } from "./types";
 import { UI } from "./UI";
 
 export class Game {
@@ -51,8 +51,42 @@ export class Game {
     this.aSetter.setObject();
   }
 
-  start() {
+  getSaveData(slot: number): SaveData {
+    const removedObjects: number[] = [];
+    this.obj.forEach((o, i) => {
+      if (o === null) removedObjects.push(i);
+    });
+
+    return {
+      version: 1,
+      slot,
+      savedAt: new Date().toISOString(),
+      player: {
+        worldX: this.player.worldX,
+        worldY: this.player.worldY,
+        direction: this.player.direction,
+        speed: this.player.speed,
+        hasKeys: this.player.hasKeys,
+      },
+      removedObjects,
+    };
+  }
+
+  private loadSaveData(data: SaveData) {
+    this.player.worldX = data.player.worldX;
+    this.player.worldY = data.player.worldY;
+    this.player.direction = data.player.direction;
+    this.player.speed = data.player.speed;
+    this.player.hasKeys = data.player.hasKeys;
+
+    data.removedObjects.forEach((i) => {
+      this.obj[i] = null;
+    });
+  }
+
+  start(save?: SaveData | null) {
     this.setupGame();
+    if (save) this.loadSaveData(save);
     this.lastTime = performance.now();
     this.animationId = requestAnimationFrame(this.loop);
     this.onHudChange({ keys: this.player.hasKeys, message: null });
