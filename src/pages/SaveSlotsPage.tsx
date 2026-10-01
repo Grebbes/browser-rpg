@@ -4,23 +4,36 @@ import PixelImage from "@/components/pixel/PixelImage";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
 import { useMenuKeys } from "@/hooks/useMenuKeys";
+import { listSaves } from "@/services/saveService";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
 type Slot =
   | { id: number; empty: true }
   | { id: number; empty: false; keys: number; doors: string; savedAt: string };
 
-const slots: Slot[] = [
-  { id: 1, empty: false, keys: 2, doors: "1/3", savedAt: "2026-09-28 18:20" },
-  { id: 2, empty: false, keys: 0, doors: "3/3", savedAt: "2026-09-27 21:05" },
-  { id: 3, empty: true },
-];
-
 export default function SaveSlotsPage() {
   const navigate = useNavigate();
+  const [saves] = useState(() => listSaves());
+
+  const slots: Slot[] = saves.map((save, i) =>
+    save
+      ? {
+          id: i + 1,
+          empty: false,
+          keys: save.player.hasKeys,
+          doors: `${save.removedObjects.filter((o) => o >= 3 && o <= 5).length} / 3`,
+          savedAt: new Date(save.savedAt).toLocaleString("sv-SE", {
+            dateStyle: "short",
+            timeStyle: "short",
+          }),
+        }
+      : { id: 1, empty: true },
+  );
+
   const selected = useMenuKeys(
     slots.length,
-    () => navigate("/play"),
+    (i) => navigate(`/play?slot=${slots[i].id}`),
     () => navigate("/"),
   );
 
@@ -51,7 +64,7 @@ export default function SaveSlotsPage() {
                 </span>
                 <PixelButton
                   variant="success"
-                  onClick={() => navigate("/play")}
+                  onClick={() => navigate(`/play?slot=${slots[i].id}`)}
                 >
                   New game
                 </PixelButton>
@@ -86,7 +99,7 @@ export default function SaveSlotsPage() {
                 {/* TODO (M7): ladda / ta bort sparningen */}
                 <PixelButton
                   variant="primary"
-                  onClick={() => navigate("/play")}
+                  onClick={() => navigate(`/play?slot=${slots[i].id}`)}
                 >
                   Load
                 </PixelButton>

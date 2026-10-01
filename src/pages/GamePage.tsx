@@ -42,7 +42,12 @@ export default function GamePage() {
       <ScreenBackground src="/ui/game-bg.png" />
 
       <div className="relative pixel-border">
-        <GameCanvas paused={paused} onHudChange={setHud} gameRef={gameRef} />
+        <GameCanvas
+          paused={paused}
+          onHudChange={setHud}
+          gameRef={gameRef}
+          slot={slot}
+        />
         <Hud keys={hud.keys} message={hud.message} />
         <PauseMenu
           open={overlay === "pause"}
