@@ -1,5 +1,6 @@
 export class Sound {
   private audio: HTMLAudioElement | null = null;
+  private volume = 1;
 
   private urls = [
     "/sound/BlueBoyAdventure.wav",
@@ -11,6 +12,12 @@ export class Sound {
 
   setFile(i: number) {
     this.audio = new Audio(this.urls[i]);
+    this.audio.volume = this.volume;
+  }
+
+  setVolume(volume: number) {
+    this.volume = volume;
+    if (this.audio) this.audio.volume = volume;
   }
 
   play() {

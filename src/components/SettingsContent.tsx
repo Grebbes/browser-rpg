@@ -3,7 +3,12 @@ import KeyCap from "@/components/pixel/KeyCap";
 import PixelButton from "@/components/pixel/PixelButton";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import { cn } from "@/lib/utils";
-
+import {
+  loadSettings,
+  saveSettings,
+  type Settings,
+} from "@/services/settingService";
+import { useState } from "react";
 const controls = [
   { action: "MOVE UP", key: "W" },
   { action: "MOVE DOWN", key: "S" },
@@ -14,34 +19,53 @@ const controls = [
 
 type Props = {
   onBack: () => void;
-  // compact = mindre version som får plats ovanpå spelfönstret (pausmenyn)
   compact?: boolean;
+  onChange?: (settings: Settings) => void;
 };
 
-// Innehållet i inställningarna. Används både av SettingsPage (egen sida)
-// och SettingsOverlay (ovanpå spelet från pausmenyn).
-// TODO (M8): koppla reglage, mute och tangenter till riktiga inställningar.
-export default function SettingsContent({ onBack, compact = false }: Props) {
+export default function SettingsContent({
+  onBack,
+  compact = false,
+  onChange,
+}: Props) {
+  const [settings, setSettings] = useState(() => loadSettings());
   const panel = compact ? "p-5" : "p-8";
   const text = compact ? "text-xs" : "text-sm";
 
   return (
     <>
-      <div className={cn("grid", compact ? "grid-cols-2 gap-4" : "gap-12 lg:grid-cols-2")}>
-        <PixelPanel as="section" className={cn("flex flex-col", compact ? "gap-5" : "gap-8", panel)}>
+      <div
+        className={cn(
+          "grid",
+          compact ? "grid-cols-2 gap-4" : "gap-12 lg:grid-cols-2",
+        )}
+      >
+        <PixelPanel
+          as="section"
+          className={cn("flex flex-col", compact ? "gap-5" : "gap-8", panel)}
+        >
           <h2 className={compact ? "text-sm" : "text-lg"}>AUDIO</h2>
 
           <div className="flex flex-col gap-3">
             <div className={cn("flex justify-between", text)}>
               <label htmlFor="music-volume">MUSIC</label>
-              <span>70</span>
+              <span>{settings.musicVolume}</span>
             </div>
             <input
               id="music-volume"
               type="range"
               min={0}
               max={100}
-              defaultValue={70}
+              value={settings.musicVolume}
+              onChange={(e) => {
+                const next = {
+                  ...settings,
+                  musicVolume: Number(e.target.value),
+                };
+                setSettings(next);
+                saveSettings(next);
+                onChange?.(next);
+              }}
               className="h-7 w-full cursor-pointer accent-primary"
             />
           </div>
@@ -49,14 +73,20 @@ export default function SettingsContent({ onBack, compact = false }: Props) {
           <div className="flex flex-col gap-3">
             <div className={cn("flex justify-between", text)}>
               <label htmlFor="sfx-volume">SOUND EFFECTS</label>
-              <span>80</span>
+              <span>{settings.sfxVolume}</span>
             </div>
             <input
               id="sfx-volume"
               type="range"
               min={0}
               max={100}
-              defaultValue={80}
+              value={settings.sfxVolume}
+              onChange={(e) => {
+                const next = { ...settings, sfxVolume: Number(e.target.value) };
+                setSettings(next);
+                saveSettings(next);
+                onChange?.(next);
+              }}
               className="h-7 w-full cursor-pointer accent-primary"
             />
           </div>
@@ -65,23 +95,48 @@ export default function SettingsContent({ onBack, compact = false }: Props) {
             <input
               id="mute-all"
               type="checkbox"
+              checked={settings.muted}
+              onChange={(e) => {
+                const next = { ...settings, muted: e.target.checked };
+                setSettings(next);
+                saveSettings(next);
+                onChange?.(next);
+              }}
               className="size-6 cursor-pointer accent-primary"
             />
             <label htmlFor="mute-all">MUTE ALL</label>
           </div>
         </PixelPanel>
 
-        <PixelPanel as="section" className={cn("flex flex-col", compact ? "gap-2.5" : "gap-3.5", panel)}>
-          <h2 className={cn("mb-2.5", compact ? "text-sm" : "text-lg")}>CONTROLS</h2>
+        <PixelPanel
+          as="section"
+          className={cn(
+            "flex flex-col",
+            compact ? "gap-2.5" : "gap-3.5",
+            panel,
+          )}
+        >
+          <h2 className={cn("mb-2.5", compact ? "text-sm" : "text-lg")}>
+            CONTROLS
+          </h2>
           {controls.map((row) => (
-            <div key={row.action} className={cn("flex items-center gap-3", text)}>
+            <div
+              key={row.action}
+              className={cn("flex items-center gap-3", text)}
+            >
               <span className="grow">{row.action}</span>
-              <KeyCap className={compact ? "h-9 min-w-12 text-xs" : "h-11 min-w-16 text-sm"}>
+              <KeyCap
+                className={
+                  compact ? "h-9 min-w-12 text-xs" : "h-11 min-w-16 text-sm"
+                }
+              >
                 {row.key}
               </KeyCap>
               <PixelButton
                 variant="secondary"
-                className={compact ? "min-h-9 px-2.5 text-[9px]" : "text-[11px]"}
+                className={
+                  compact ? "min-h-9 px-2.5 text-[9px]" : "text-[11px]"
+                }
               >
                 Change
               </PixelButton>
@@ -92,7 +147,10 @@ export default function SettingsContent({ onBack, compact = false }: Props) {
 
       <div className="flex flex-wrap items-center justify-between gap-6">
         <BackButton onClick={onBack} />
-        <PixelButton variant="primary" className={compact ? "text-[10px]" : undefined}>
+        <PixelButton
+          variant="primary"
+          className={compact ? "text-[10px]" : undefined}
+        >
           Reset defaults
         </PixelButton>
       </div>

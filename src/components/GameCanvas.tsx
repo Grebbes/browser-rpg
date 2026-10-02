@@ -1,5 +1,6 @@
 import type { HudState } from "@/game/types";
 import { loadGame } from "@/services/saveService";
+import { loadSettings } from "@/services/settingService";
 import type { RefObject } from "react";
 import { useEffect, useRef } from "react";
 import { screenHeight, screenWidth } from "../game/constants";
@@ -26,6 +27,7 @@ function GameCanvas({ paused, onHudChange, gameRef, slot }: Props) {
     const game = new Game(ctx, onHudChange);
     gameRef.current = game;
     game.start(loadGame(slot));
+    game.applySettings(loadSettings());
 
     return () => {
       game.stop();

@@ -1,12 +1,14 @@
 import SettingsContent from "@/components/SettingsContent";
 import { useBackKey } from "@/hooks/useBackKey";
+import { type Settings } from "@/services/settingService";
 
 type Props = {
   open: boolean;
   onBack: () => void;
+  onChange?: (settings: Settings) => void;
 };
 
-export default function SettingsOverlay({ open, onBack }: Props) {
+export default function SettingsOverlay({ open, onBack, onChange }: Props) {
   useBackKey(onBack, open);
 
   if (!open) return null;
@@ -24,7 +26,7 @@ export default function SettingsOverlay({ open, onBack }: Props) {
       >
         SETTINGS
       </h2>
-      <SettingsContent compact onBack={onBack} />
+      <SettingsContent compact onBack={onBack} onChange={onChange} />
     </div>
   );
 }

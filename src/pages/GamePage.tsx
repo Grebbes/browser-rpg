@@ -59,6 +59,7 @@ export default function GamePage() {
         <SettingsOverlay
           open={overlay === "settings"}
           onBack={() => setOverlay("pause")}
+          onChange={(settings) => gameRef.current?.applySettings(settings)}
         />
       </div>
 

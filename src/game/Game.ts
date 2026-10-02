@@ -1,3 +1,4 @@
+import type { Settings } from "@/services/settingService";
 import { AssetSetter } from "./AssetSetter";
 import { CollisionChecker } from "./CollisionChecker";
 import { screenHeight, screenWidth } from "./constants";
@@ -197,6 +198,13 @@ export class Game {
   stopMusic() {
     this.music.stop();
   }
+
+  applySettings(settings: Settings) {
+    this.music.setVolume(settings.muted ? 0 : settings.musicVolume / 100);
+
+    this.se.setVolume(settings.muted ? 0 : settings.sfxVolume / 100);
+  }
+
   playSe(i: number) {
     this.se.setFile(i);
     this.se.play();
