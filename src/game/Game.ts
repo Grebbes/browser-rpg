@@ -201,8 +201,8 @@ export class Game {
 
   applySettings(settings: Settings) {
     this.music.setVolume(settings.muted ? 0 : settings.musicVolume / 100);
-
     this.se.setVolume(settings.muted ? 0 : settings.sfxVolume / 100);
+    this.input.setKeys(settings.keys);
   }
 
   playSe(i: number) {

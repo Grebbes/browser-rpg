@@ -1,8 +1,17 @@
+import type { Settings } from "@/services/settingService";
+import { DEFAULT_SETTINGS } from "@/services/settingService";
+
 export class Input {
   upPressed = false;
   downPressed = false;
   leftPressed = false;
   rightPressed = false;
+
+  private keys: Settings["keys"] = DEFAULT_SETTINGS.keys;
+
+  setKeys(newKeys: Settings["keys"]) {
+    this.keys = newKeys;
+  }
 
   constructor() {
     window.addEventListener("keydown", this.handleKeyDown);
@@ -15,16 +24,16 @@ export class Input {
   }
 
   private handleKeyDown = (e: KeyboardEvent) => {
-    if (e.code === "KeyW") this.upPressed = true;
-    if (e.code === "KeyS") this.downPressed = true;
-    if (e.code === "KeyA") this.leftPressed = true;
-    if (e.code === "KeyD") this.rightPressed = true;
+    if (e.code === this.keys.up) this.upPressed = true;
+    if (e.code === this.keys.down) this.downPressed = true;
+    if (e.code === this.keys.left) this.leftPressed = true;
+    if (e.code === this.keys.right) this.rightPressed = true;
   };
 
   private handleKeyUp = (e: KeyboardEvent) => {
-    if (e.code === "KeyW") this.upPressed = false;
-    if (e.code === "KeyS") this.downPressed = false;
-    if (e.code === "KeyA") this.leftPressed = false;
-    if (e.code === "KeyD") this.rightPressed = false;
+    if (e.code === this.keys.up) this.upPressed = false;
+    if (e.code === this.keys.down) this.downPressed = false;
+    if (e.code === this.keys.left) this.leftPressed = false;
+    if (e.code === this.keys.right) this.rightPressed = false;
   };
 }
