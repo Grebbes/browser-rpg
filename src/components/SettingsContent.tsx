@@ -9,12 +9,27 @@ import {
   type Settings,
 } from "@/services/settingService";
 import { useState } from "react";
-const controls = [
-  { action: "MOVE UP", key: "W" },
-  { action: "MOVE DOWN", key: "S" },
-  { action: "MOVE LEFT", key: "A" },
-  { action: "MOVE RIGHT", key: "D" },
-  { action: "PAUSE", key: "ESC" },
+
+const ARROWS: Record<string, string> = {
+  ArrowUp: "↑",
+  ArrowDown: "↓",
+  ArrowLeft: "←",
+  ArrowRight: "→",
+};
+
+function keyLabel(code: string): string {
+  if (code.startsWith("Key")) return code.slice(3);
+  if (code.startsWith("Digit")) return code.slice(5);
+  if (code in ARROWS) return ARROWS[code];
+  if (code === "Space") return "Space";
+  return code;
+}
+
+const controls: { action: string; id: keyof Settings["keys"] }[] = [
+  { action: "MOVE UP", id: "up" },
+  { action: "MOVE DOWN", id: "down" },
+  { action: "MOVE LEFT", id: "left" },
+  { action: "MOVE RIGHT", id: "right" },
 ];
 
 type Props = {
@@ -130,7 +145,7 @@ export default function SettingsContent({
                   compact ? "h-9 min-w-12 text-xs" : "h-11 min-w-16 text-sm"
                 }
               >
-                {row.key}
+                {keyLabel(settings.keys[row.id])}
               </KeyCap>
               <PixelButton
                 variant="secondary"
@@ -142,6 +157,17 @@ export default function SettingsContent({
               </PixelButton>
             </div>
           ))}
+
+          <div className={cn("flex items-center gap-3", text)}>
+            <span className="grow">PAUSE</span>
+            <KeyCap
+              className={
+                compact ? "h-9 min-w-12 text-xs" : "h-11 min-w-16 text-sm"
+              }
+            >
+              ESC
+            </KeyCap>
+          </div>
         </PixelPanel>
       </div>
 
