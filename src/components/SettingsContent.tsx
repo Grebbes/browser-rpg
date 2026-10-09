@@ -54,6 +54,12 @@ export default function SettingsContent({
     if (listening === null) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.code === "Escape") {
+        setListening(null);
+        return;
+      }
       const next = {
         ...settings,
         keys: { ...settings.keys, [listening]: e.code },
@@ -64,8 +70,8 @@ export default function SettingsContent({
       setListening(null);
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown, true);
+    return () => window.removeEventListener("keydown", handleKeyDown, true);
   }, [listening, onChange, settings]);
 
   return (
