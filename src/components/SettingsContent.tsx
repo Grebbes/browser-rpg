@@ -8,7 +8,7 @@ import {
   saveSettings,
   type Settings,
 } from "@/services/settingService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ARROWS: Record<string, string> = {
   ArrowUp: "↑",
@@ -44,8 +44,29 @@ export default function SettingsContent({
   onChange,
 }: Props) {
   const [settings, setSettings] = useState(() => loadSettings());
+  const [listening, setListening] = useState<keyof Settings["keys"] | null>(
+    null,
+  );
   const panel = compact ? "p-5" : "p-8";
   const text = compact ? "text-xs" : "text-sm";
+
+  useEffect(() => {
+    if (listening === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const next = {
+        ...settings,
+        keys: { ...settings.keys, [listening]: e.code },
+      };
+      setSettings(next);
+      saveSettings(next);
+      onChange?.(next);
+      setListening(null);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [listening, onChange, settings]);
 
   return (
     <>
@@ -145,10 +166,11 @@ export default function SettingsContent({
                   compact ? "h-9 min-w-12 text-xs" : "h-11 min-w-16 text-sm"
                 }
               >
-                {keyLabel(settings.keys[row.id])}
+                {listening === row.id ? "..." : keyLabel(settings.keys[row.id])}
               </KeyCap>
               <PixelButton
                 variant="secondary"
+                onClick={() => setListening(row.id)}
                 className={
                   compact ? "min-h-9 px-2.5 text-[9px]" : "text-[11px]"
                 }
