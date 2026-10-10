@@ -4,6 +4,7 @@ import PixelButton from "@/components/pixel/PixelButton";
 import PixelPanel from "@/components/pixel/PixelPanel";
 import { cn } from "@/lib/utils";
 import {
+  DEFAULT_SETTINGS,
   loadSettings,
   saveSettings,
   type Settings,
@@ -203,6 +204,12 @@ export default function SettingsContent({
         <BackButton onClick={onBack} />
         <PixelButton
           variant="primary"
+          onClick={() => {
+            setSettings(DEFAULT_SETTINGS);
+            saveSettings(DEFAULT_SETTINGS);
+            onChange?.(DEFAULT_SETTINGS);
+            setListening(null);
+          }}
           className={compact ? "text-[10px]" : undefined}
         >
           Reset defaults
