@@ -8,7 +8,6 @@ type Props = {
   className?: string;
 };
 
-// En rad i en meny. Den valda raden får pil + guldfärg + mörkare bakgrund.
 export default function MenuItem({
   label,
   selected = false,

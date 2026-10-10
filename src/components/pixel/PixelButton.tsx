@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 
 type Variant = "primary" | "danger" | "success" | "secondary";
 
-// Knappens färg + en mörkare "kant" under som ger 3D-känsla.
 const variantClass: Record<Variant, string> = {
   primary: "bg-primary text-primary-foreground shadow-[0_4px_0_0_#a83800]",
   danger: "bg-destructive text-foreground shadow-[0_4px_0_0_#7c1400]",

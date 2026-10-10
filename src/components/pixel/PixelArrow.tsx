@@ -3,7 +3,6 @@ type Props = {
   className?: string;
 };
 
-// Liten pixelpil (4×4 "pixlar"). Färgen följer textfärgen (currentColor).
 export default function PixelArrow({ direction = "right", className }: Props) {
   return (
     <svg

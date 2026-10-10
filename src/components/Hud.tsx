@@ -5,9 +5,6 @@ type Props = {
   message?: string | null;
 };
 
-// HUD ovanpå spelfönstret: nyckelräknare uppe till vänster + meddelanderuta.
-// Läggs i ett element med "relative" runt canvasen (se GamePage).
-// TODO (tillsammans): få keys och message från spelet i stället för canvas-UI:t.
 export default function Hud({ keys, message }: Props) {
   return (
     <div className="pointer-events-none absolute inset-0">

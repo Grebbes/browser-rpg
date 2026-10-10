@@ -6,7 +6,6 @@ type Props = {
   className?: string;
 };
 
-// En tangent som den ser ut på tangentbordet (W, A, S, D, ESC).
 export default function KeyCap({ children, className }: Props) {
   return (
     <kbd

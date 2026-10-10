@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 
 type Tone = "white" | "gold" | "muted";
 
-// Färgen på pixelramen. --pixel-color läses av utilityn "pixel-border" i index.css.
 const toneClass: Record<Tone, string> = {
   white: "[--pixel-color:var(--color-foreground)]",
   gold: "[--pixel-color:var(--color-primary)]",
@@ -15,7 +14,6 @@ type Props = HTMLAttributes<HTMLElement> & {
   as?: "div" | "section" | "nav" | "article";
 };
 
-// En panel med pixelram (fyra skuggor = raka hörn med "hack", som i NES-menyer).
 export default function PixelPanel({
   tone = "white",
   as: Tag = "div",

@@ -135,7 +135,6 @@ export class Player extends Entity {
         } else {
           this.ui.showMessage("The door is locked");
         }
-        console.log("you now have", this.hasKeys);
         break;
 
       case "Boots":

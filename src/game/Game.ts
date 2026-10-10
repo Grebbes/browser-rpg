@@ -135,7 +135,6 @@ export class Game {
     }
 
     if (this.timer >= 1000) {
-      console.log("fps:", this.drawCount);
       this.drawCount = 0;
       this.timer = 0;
     }
