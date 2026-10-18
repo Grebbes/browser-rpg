@@ -6,6 +6,7 @@ export class Input {
   downPressed = false;
   leftPressed = false;
   rightPressed = false;
+  checkDrawTime = false;
 
   private keys: Settings["keys"] = DEFAULT_SETTINGS.keys;
 
@@ -28,6 +29,7 @@ export class Input {
     if (e.code === this.keys.down) this.downPressed = true;
     if (e.code === this.keys.left) this.leftPressed = true;
     if (e.code === this.keys.right) this.rightPressed = true;
+    if (e.code === "KeyT") this.checkDrawTime = !this.checkDrawTime;
   };
 
   private handleKeyUp = (e: KeyboardEvent) => {

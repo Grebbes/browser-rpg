@@ -177,6 +177,11 @@ export class Game {
   }
 
   draw() {
+    let drawStart = 0;
+    if (this.input.checkDrawTime) {
+      drawStart = performance.now();
+    }
+
     this.ctx.fillStyle = "black";
     this.ctx.fillRect(0, 0, screenWidth, screenHeight);
 
@@ -186,6 +191,15 @@ export class Game {
     }
     this.player.draw(this.ctx);
     this.ui.draw(this.ctx);
+
+    if (this.input.checkDrawTime) {
+      const drawEnd = performance.now();
+      const passed = drawEnd - drawStart;
+      this.ctx.fillStyle = "white";
+      this.ctx.font = "20px monospace";
+      this.ctx.fillText("Draw Time: " + passed.toFixed(3) + "ms", 10, 400);
+      console.log("Draw Time: " + passed.toFixed(3) + "ms");
+    }
   }
 
   playMusic(i: number) {
