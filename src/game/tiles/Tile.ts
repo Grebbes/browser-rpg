@@ -1,4 +1,4 @@
 export class Tile {
-  image = new Image();
+  image: HTMLCanvasElement | null = null;
   collision = false;
 }

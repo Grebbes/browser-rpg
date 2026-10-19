@@ -1,6 +1,7 @@
 import { maxWorldCol, maxWorldRow, tileSize } from "../constants";
 import { Player } from "../entities/Player";
 import world01 from "../maps/world01.txt?raw";
+import { scaleImage } from "../scaleImage";
 import { Tile } from "./Tile";
 
 export class TileManager {
@@ -25,7 +26,11 @@ export class TileManager {
 
   setup(index: number, imageName: string, collision: boolean) {
     this.tile[index] = new Tile();
-    this.tile[index].image.src = `/sprites/tiles/${imageName}.png`;
+    const img = new Image();
+    img.onload = () => {
+      this.tile[index].image = scaleImage(img, tileSize, tileSize);
+    };
+    img.src = `/sprites/tiles/${imageName}.png`;
     this.tile[index].collision = collision;
   }
 
@@ -59,8 +64,8 @@ export class TileManager {
         worldY - tileSize < player.worldY + player.screenY
       ) {
         const image = this.tile[tileNum].image;
-        if (image.complete) {
-          ctx.drawImage(image, screenX, screenY, tileSize, tileSize);
+        if (image) {
+          ctx.drawImage(image, screenX, screenY);
         }
       }
 
