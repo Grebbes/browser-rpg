@@ -35,7 +35,9 @@ export class Game {
   private music = new Sound();
   private se = new Sound();
   private musicStarted = false;
-  private paused = false;
+  gameState = 0;
+  readonly playState = 1;
+  readonly pauseState = 2;
   private onHudChange: (hud: HudState) => void;
   private lastHud: HudState = { keys: 0, message: null };
 
@@ -50,6 +52,7 @@ export class Game {
 
   setupGame() {
     this.aSetter.setObject();
+    this.gameState = this.playState;
   }
 
   getSaveData(slot: number): SaveData {
@@ -103,22 +106,15 @@ export class Game {
   }
 
   pause() {
-    if (this.paused) return;
-    this.paused = true;
-
-    if (this.animationId !== null) {
-      cancelAnimationFrame(this.animationId);
-      this.animationId = null;
-    }
+    if (this.gameState === this.pauseState) return;
+    this.gameState = this.pauseState;
     this.music.pause();
   }
 
   resume() {
-    if (!this.paused) return;
-    this.paused = false;
+    if (this.gameState !== this.pauseState) return;
+    this.gameState = this.playState;
 
-    this.lastTime = performance.now();
-    this.animationId = requestAnimationFrame(this.loop);
     if (this.musicStarted) this.music.play();
   }
 
@@ -156,9 +152,13 @@ export class Game {
         this.musicStarted = true;
       }
     }
-    this.tileM.update();
-    this.player.update();
-    this.ui.update();
+
+    if (this.gameState === this.playState) {
+      this.tileM.update();
+      this.player.update();
+      this.ui.update();
+    }
+
     this.syncHud();
   }
 
