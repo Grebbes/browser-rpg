@@ -15,26 +15,18 @@ export class TileManager {
   }
 
   getTileImage() {
-    this.tile[0] = new Tile();
-    this.tile[0].image.src = "/sprites/tiles/grass.png";
+    this.setup(0, "grass", false);
+    this.setup(1, "wall", true);
+    this.setup(2, "water", true);
+    this.setup(3, "earth", false);
+    this.setup(4, "tree", true);
+    this.setup(5, "sand", false);
+  }
 
-    this.tile[1] = new Tile();
-    this.tile[1].image.src = "/sprites/tiles/wall.png";
-    this.tile[1].collision = true;
-
-    this.tile[2] = new Tile();
-    this.tile[2].image.src = "/sprites/tiles/water.png";
-    this.tile[2].collision = true;
-
-    this.tile[3] = new Tile();
-    this.tile[3].image.src = "/sprites/tiles/earth.png";
-
-    this.tile[4] = new Tile();
-    this.tile[4].image.src = "/sprites/tiles/tree.png";
-    this.tile[4].collision = true;
-
-    this.tile[5] = new Tile();
-    this.tile[5].image.src = "/sprites/tiles/sand.png";
+  setup(index: number, imageName: string, collision: boolean) {
+    this.tile[index] = new Tile();
+    this.tile[index].image.src = `/sprites/tiles/${imageName}.png`;
+    this.tile[index].collision = collision;
   }
 
   loadMap(mapText: string) {
