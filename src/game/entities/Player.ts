@@ -2,6 +2,7 @@ import type { CollisionChecker } from "../CollisionChecker";
 import { scale, screenHeight, screenWidth, tileSize } from "../constants";
 import { Input } from "../Input";
 import { SuperObject } from "../objects/SuperObject";
+import { scaleImage } from "../scaleImage";
 import { UI } from "../UI";
 import { Entity } from "./Entity";
 
@@ -19,7 +20,7 @@ export class Player extends Entity {
   hasKeys = 0;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
-  private sheet = new Image();
+  private sheet: HTMLCanvasElement | null = null;
   private frame = 0;
   private moving = false;
 
@@ -50,7 +51,11 @@ export class Player extends Entity {
   }
 
   getPlayerImage() {
-    this.sheet.src = "/sprites/hero/hero-frames-32x32.png";
+    const img = new Image();
+    img.onload = () => {
+      this.sheet = scaleImage(img, img.width * scale, img.height * scale);
+    };
+    img.src = "/sprites/hero/hero-frames-32x32.png";
   }
 
   update() {
@@ -151,22 +156,23 @@ export class Player extends Entity {
   }
 
   draw(ctx: CanvasRenderingContext2D) {
-    if (!this.sheet.complete) return;
+    if (!this.sheet) return;
 
     const anim = this.moving ? "walk" : "idle";
     const row = ANIM_ROW[anim] + DIR_ROW[this.direction];
     const frame = this.frame;
+    const size = CELL * scale;
 
     ctx.drawImage(
       this.sheet,
-      frame * CELL,
-      row * CELL,
-      CELL,
-      CELL,
+      frame * size,
+      row * size,
+      size,
+      size,
       this.screenX - 8 * scale,
       this.screenY + tileSize - 28 * scale,
-      CELL * scale,
-      CELL * scale,
+      size,
+      size,
     );
   }
 }
