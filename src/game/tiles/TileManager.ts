@@ -9,10 +9,21 @@ export class TileManager {
   mapTileNum: number[][] = Array.from({ length: maxWorldCol }, () =>
     Array(maxWorldRow).fill(0),
   );
+  animOrder = [0, 1, 0, 2];
+  animStep = 0;
+  animCounter = 0;
 
   constructor() {
     this.getTileImage();
     this.loadMap(world02);
+  }
+
+  update() {
+    this.animCounter++;
+    if (this.animCounter >= 15) {
+      this.animCounter = 0;
+      this.animStep = (this.animStep + 1) % this.animOrder.length;
+    }
   }
 
   getTileImage() {
@@ -22,7 +33,7 @@ export class TileManager {
     this.setup(3, "earth", false);
     this.setup(4, "tree", true);
     this.setup(5, "sand", false);
-    this.setup(6, "tallgrass", false);
+    this.setupAnimation(6, ["tallgrass", "tallgrass_2", "tallgrass_3"], false);
     this.setup(7, "flowers", false);
     this.setup(8, "bush", true);
     this.setup(9, "rock", true);
@@ -48,6 +59,18 @@ export class TileManager {
       this.tile[index].image = scaleImage(img, tileSize, tileSize);
     };
     img.src = `/sprites/tiles/${imageName}.png`;
+    this.tile[index].collision = collision;
+  }
+
+  setupAnimation(index: number, imageNames: string[], collision: boolean) {
+    this.tile[index] = new Tile();
+    imageNames.forEach((name, i) => {
+      const img = new Image();
+      img.onload = () => {
+        this.tile[index].frames[i] = scaleImage(img, tileSize, tileSize);
+      };
+      img.src = `/sprites/tiles/${name}.png`;
+    });
     this.tile[index].collision = collision;
   }
 
@@ -80,7 +103,11 @@ export class TileManager {
         worldY + tileSize > player.worldY - player.screenY &&
         worldY - tileSize < player.worldY + player.screenY
       ) {
-        const image = this.tile[tileNum].image;
+        const tile = this.tile[tileNum];
+        const image =
+          tile.frames.length > 0
+            ? tile.frames[this.animOrder[this.animStep]]
+            : tile.image;
         if (image) {
           ctx.drawImage(image, screenX, screenY);
         }

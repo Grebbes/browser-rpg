@@ -156,6 +156,7 @@ export class Game {
         this.musicStarted = true;
       }
     }
+    this.tileM.update();
     this.player.update();
     this.ui.update();
     this.syncHud();
