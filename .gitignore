@@ -30,6 +30,7 @@ public/sprites/objects_ryisnow
 
 # RyiSnows världskarta – får inte publiceras (ska bytas mot egen)
 src/game/maps/world01.txt
+src/game/maps/worldV2.txt
 public/sound/
 
 # Zip med RyiSnows filer (för att flytta mellan datorer)

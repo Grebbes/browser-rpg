@@ -1,6 +1,6 @@
 import { maxWorldCol, maxWorldRow, tileSize } from "../constants";
 import { Player } from "../entities/Player";
-import world01 from "../maps/world01.txt?raw";
+import world02 from "../maps/world02.txt?raw";
 import { scaleImage } from "../scaleImage";
 import { Tile } from "./Tile";
 
@@ -12,7 +12,7 @@ export class TileManager {
 
   constructor() {
     this.getTileImage();
-    this.loadMap(world01);
+    this.loadMap(world02);
   }
 
   getTileImage() {
@@ -22,6 +22,23 @@ export class TileManager {
     this.setup(3, "earth", false);
     this.setup(4, "tree", true);
     this.setup(5, "sand", false);
+    this.setup(6, "tallgrass", false);
+    this.setup(7, "flowers", false);
+    this.setup(8, "bush", true);
+    this.setup(9, "rock", true);
+    this.setup(10, "shore_n", true);
+    this.setup(11, "shore_s", true);
+    this.setup(12, "shore_w", true);
+    this.setup(13, "shore_e", true);
+    this.setup(14, "shore_nw", true);
+    this.setup(15, "shore_ne", true);
+    this.setup(16, "shore_sw", true);
+    this.setup(17, "shore_se", true);
+    this.setup(18, "shore_out_nw", true);
+    this.setup(19, "shore_out_ne", true);
+    this.setup(20, "shore_out_sw", true);
+    this.setup(21, "shore_out_se", true);
+    this.setup(22, "cave", false);
   }
 
   setup(index: number, imageName: string, collision: boolean) {
