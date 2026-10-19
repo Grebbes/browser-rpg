@@ -43,7 +43,7 @@ export class CollisionChecker {
         break;
       case "down":
         entityBottomRow = Math.floor(
-          (entityTopWorldY + entity.speed) / tileSize,
+          (entityBottomWorldY + entity.speed) / tileSize,
         );
         tileNum1 = this.tileM.mapTileNum[entityLeftCol][entityBottomRow];
         tileNum2 = this.tileM.mapTileNum[entityRightCol][entityBottomRow];
