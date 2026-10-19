@@ -43,8 +43,8 @@ export class Player extends Entity {
   }
 
   setDefaultValues() {
-    this.worldX = tileSize * 23;
-    this.worldY = tileSize * 21;
+    this.worldX = tileSize * 24;
+    this.worldY = tileSize * 36;
     this.speed = 4;
 
     this.direction = "down";
