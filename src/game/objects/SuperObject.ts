@@ -1,14 +1,23 @@
 import { tileSize } from "../constants";
 import type { Player } from "../entities/Player";
+import { scaleImage } from "../scaleImage";
 
 export class SuperObject {
-  image = new Image();
+  image: HTMLCanvasElement | null = null;
   name = "";
   collision = false;
   worldX = 0;
   worldY = 0;
 
   solidArea = { x: 0, y: 0, height: tileSize, width: tileSize };
+
+  loadImage(name: string) {
+    const img = new Image();
+    img.onload = () => {
+      this.image = scaleImage(img, tileSize, tileSize);
+    };
+    img.src = `/sprites/objects/${name}.png`;
+  }
 
   draw(ctx: CanvasRenderingContext2D, player: Player) {
     const screenX = this.worldX - player.worldX + player.screenX;
@@ -20,8 +29,8 @@ export class SuperObject {
       this.worldY + tileSize > player.worldY - player.screenY &&
       this.worldY - tileSize < player.worldY + player.screenY
     ) {
-      if (this.image.complete) {
-        ctx.drawImage(this.image, screenX, screenY, tileSize, tileSize);
+      if (this.image) {
+        ctx.drawImage(this.image, screenX, screenY);
       }
     }
   }
