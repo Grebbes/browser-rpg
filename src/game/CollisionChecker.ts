@@ -83,6 +83,50 @@ export class CollisionChecker {
     }
   }
 
+  checkEntity(entity: Entity, target: (Entity | null)[]): number | null {
+    let index: number | null = null;
+
+    const entityRect: Rect = {
+      x: entity.worldX + entity.solidArea.x,
+      y: entity.worldY + entity.solidArea.y,
+      width: entity.solidArea.width,
+      height: entity.solidArea.height,
+    };
+    switch (entity.direction) {
+      case "up":
+        entityRect.y -= entity.speed;
+        break;
+      case "down":
+        entityRect.y += entity.speed;
+        break;
+      case "left":
+        entityRect.x -= entity.speed;
+        break;
+      case "right":
+        entityRect.x += entity.speed;
+        break;
+    }
+
+    for (let i = 0; i < target.length; i++) {
+      const o = target[i];
+      if (!o) continue;
+
+      const targetRect: Rect = {
+        x: o.worldX + o.solidArea.x,
+        y: o.worldY + o.solidArea.y,
+        width: o.solidArea.width,
+        height: o.solidArea.height,
+      };
+
+      if (intersects(entityRect, targetRect)) {
+        entity.collisionOn = true;
+        index = i;
+      }
+    }
+
+    return index;
+  }
+
   checkObject(entity: Entity, player: boolean): number | null {
     let index: number | null = null;
 

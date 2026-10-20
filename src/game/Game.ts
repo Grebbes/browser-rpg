@@ -31,6 +31,7 @@ export class Game {
     this.input,
     this.cChecker,
     this.obj,
+    this.npc,
     (i) => this.playSe(i),
     this.ui,
   );

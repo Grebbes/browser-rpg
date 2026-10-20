@@ -14,6 +14,7 @@ const RUN_TICKS = [7, 5, 7, 5];
 export class Player extends Entity {
   private input: Input;
   private obj: (SuperObject | null)[];
+  private npc: (Entity | null)[];
   private playSe: (i: number) => void;
   private ui: UI;
   hasKeys = 0;
@@ -27,6 +28,7 @@ export class Player extends Entity {
     input: Input,
     cChecker: CollisionChecker,
     obj: (SuperObject | null)[],
+    npc: (Entity | null)[],
     playSe: (i: number) => void,
     ui: UI,
   ) {
@@ -36,6 +38,7 @@ export class Player extends Entity {
     this.setDefaultValues();
     this.getPlayerImage();
     this.obj = obj;
+    this.npc = npc;
     this.playSe = playSe;
     this.ui = ui;
   }
@@ -78,6 +81,8 @@ export class Player extends Entity {
 
       const objectIndex = this.cChecker.checkObject(this, true);
       this.pickUpObject(objectIndex);
+      const npcIndex = this.cChecker.checkEntity(this, this.npc);
+      this.interactNpc(npcIndex);
 
       if (!this.collisionOn) {
         switch (this.direction) {
@@ -151,6 +156,11 @@ export class Player extends Entity {
         this.ui.gameFinished = true;
         break;
     }
+  }
+
+  interactNpc(i: number | null) {
+    if (i === null) return;
+    this.ui.showMessage("You are hitting an NPC!");
   }
 
   draw(ctx: CanvasRenderingContext2D) {
