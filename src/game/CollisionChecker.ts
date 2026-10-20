@@ -1,6 +1,7 @@
 import { intersects, type Rect } from "./Rect";
 import { tileSize } from "./constants";
 import { Entity } from "./entities/Entity";
+import type { Player } from "./entities/Player";
 import { SuperObject } from "./objects/SuperObject";
 import { TileManager } from "./tiles/TileManager";
 
@@ -169,5 +170,39 @@ export class CollisionChecker {
     }
 
     return index;
+  }
+
+  checkPlayer(entity: Entity, player: Player) {
+    const entityRect: Rect = {
+      x: entity.worldX + entity.solidArea.x,
+      y: entity.worldY + entity.solidArea.y,
+      width: entity.solidArea.width,
+      height: entity.solidArea.height,
+    };
+    switch (entity.direction) {
+      case "up":
+        entityRect.y -= entity.speed;
+        break;
+      case "down":
+        entityRect.y += entity.speed;
+        break;
+      case "left":
+        entityRect.x -= entity.speed;
+        break;
+      case "right":
+        entityRect.x += entity.speed;
+        break;
+    }
+
+    const playerRect: Rect = {
+      x: player.worldX + player.solidArea.x,
+      y: player.worldY + player.solidArea.y,
+      width: player.solidArea.width,
+      height: player.solidArea.height,
+    };
+
+    if (intersects(entityRect, playerRect)) {
+      entity.collisionOn = true;
+    }
   }
 }

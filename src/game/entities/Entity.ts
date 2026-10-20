@@ -32,11 +32,12 @@ export abstract class Entity {
 
   setAction() {}
 
-  update() {
+  update(player: Player) {
     this.setAction();
     this.collisionOn = false;
     this.cChecker.checkTile(this);
     this.cChecker.checkObject(this, false);
+    this.cChecker.checkPlayer(this, player);
 
     if (this.collisionOn === false) {
       switch (this.direction) {

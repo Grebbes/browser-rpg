@@ -161,7 +161,7 @@ export class Game {
       this.tileM.update();
       this.player.update();
       for (const n of this.npc) {
-        if (n) n.update();
+        if (n) n.update(this.player);
       }
       this.ui.update();
     }
