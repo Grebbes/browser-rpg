@@ -10,6 +10,7 @@ export abstract class Entity {
 
   spriteCounter = 0;
   spriteNum = 1;
+  actionLockCounter = 0;
 
   solidArea = { x: 0, y: 0, width: tileSize, height: tileSize };
   collisionOn = false;
@@ -22,6 +23,33 @@ export abstract class Entity {
   left2: HTMLCanvasElement | null = null;
   right1: HTMLCanvasElement | null = null;
   right2: HTMLCanvasElement | null = null;
+
+  setAction() {}
+
+  update() {
+    this.setAction();
+
+    switch (this.direction) {
+      case "up":
+        this.worldY -= this.speed;
+        break;
+      case "down":
+        this.worldY += this.speed;
+        break;
+      case "left":
+        this.worldX -= this.speed;
+        break;
+      case "right":
+        this.worldX += this.speed;
+        break;
+    }
+    this.spriteCounter++;
+
+    if (this.spriteCounter >= 12) {
+      this.spriteNum = this.spriteNum === 1 ? 2 : 1;
+      this.spriteCounter = 0;
+    }
+  }
 
   setup(imagePath: string) {
     const canvas = document.createElement("canvas");

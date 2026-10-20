@@ -18,4 +18,21 @@ export class NpcOldMan extends Entity {
     this.right1 = this.setup("npc/oldman_right_1");
     this.right2 = this.setup("npc/oldman_right_2");
   }
+
+  setAction() {
+    this.actionLockCounter++;
+    if (this.actionLockCounter === 120) {
+      const i = Math.floor(Math.random() * 100) + 1;
+      if (i <= 25) {
+        this.direction = "up";
+      } else if (i <= 50) {
+        this.direction = "down";
+      } else if (i <= 75) {
+        this.direction = "left";
+      } else {
+        this.direction = "right";
+      }
+      this.actionLockCounter = 0;
+    }
+  }
 }

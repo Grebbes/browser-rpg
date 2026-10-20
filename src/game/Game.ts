@@ -159,6 +159,9 @@ export class Game {
     if (this.gameState === this.playState) {
       this.tileM.update();
       this.player.update();
+      for (const n of this.npc) {
+        if (n) n.update();
+      }
       this.ui.update();
     }
 
