@@ -1,3 +1,4 @@
+import type { CollisionChecker } from "./CollisionChecker";
 import { tileSize } from "./constants";
 import type { Entity } from "./entities/Entity";
 import { NpcOldMan } from "./entities/NpcOldMan";
@@ -10,8 +11,14 @@ import type { SuperObject } from "./objects/SuperObject";
 export class AssetSetter {
   private obj: (SuperObject | null)[];
   private npc: (Entity | null)[];
+  private cChecker: CollisionChecker;
 
-  constructor(obj: (SuperObject | null)[], npc: (Entity | null)[]) {
+  constructor(
+    obj: (SuperObject | null)[],
+    npc: (Entity | null)[],
+    cChecker: CollisionChecker,
+  ) {
+    this.cChecker = cChecker;
     this.obj = obj;
     this.npc = npc;
   }
@@ -36,7 +43,7 @@ export class AssetSetter {
   }
 
   setNpc() {
-    const oldMan = new NpcOldMan();
+    const oldMan = new NpcOldMan(this.cChecker);
     oldMan.worldX = tileSize * 21;
     oldMan.worldY = tileSize * 34;
     this.npc[0] = oldMan;

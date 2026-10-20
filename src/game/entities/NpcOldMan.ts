@@ -1,8 +1,9 @@
+import type { CollisionChecker } from "../CollisionChecker";
 import { Entity } from "./Entity";
 
 export class NpcOldMan extends Entity {
-  constructor() {
-    super();
+  constructor(cChecker: CollisionChecker) {
+    super(cChecker);
     this.direction = "down";
     this.speed = 1;
     this.getImage();

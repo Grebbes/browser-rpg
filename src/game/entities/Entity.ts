@@ -1,8 +1,14 @@
+import type { CollisionChecker } from "../CollisionChecker";
 import { scale, tileSize } from "../constants";
 import type { Player } from "./Player";
 
 export type Direction = "up" | "down" | "left" | "right";
 export abstract class Entity {
+  protected cChecker: CollisionChecker;
+  constructor(cChecker: CollisionChecker) {
+    this.cChecker = cChecker;
+  }
+
   worldX = 0;
   worldY = 0;
   speed = 0;
@@ -28,26 +34,32 @@ export abstract class Entity {
 
   update() {
     this.setAction();
+    this.collisionOn = false;
+    this.cChecker.checkTile(this);
+    this.cChecker.checkObject(this, false);
 
-    switch (this.direction) {
-      case "up":
-        this.worldY -= this.speed;
-        break;
-      case "down":
-        this.worldY += this.speed;
-        break;
-      case "left":
-        this.worldX -= this.speed;
-        break;
-      case "right":
-        this.worldX += this.speed;
-        break;
-    }
-    this.spriteCounter++;
+    if (this.collisionOn === false) {
+      switch (this.direction) {
+        case "up":
+          this.worldY -= this.speed;
+          break;
+        case "down":
+          this.worldY += this.speed;
+          break;
+        case "left":
+          this.worldX -= this.speed;
+          break;
+        case "right":
+          this.worldX += this.speed;
+          break;
+      }
 
-    if (this.spriteCounter >= 12) {
-      this.spriteNum = this.spriteNum === 1 ? 2 : 1;
-      this.spriteCounter = 0;
+      this.spriteCounter++;
+
+      if (this.spriteCounter >= 12) {
+        this.spriteNum = this.spriteNum === 1 ? 2 : 1;
+        this.spriteCounter = 0;
+      }
     }
   }
 

@@ -25,7 +25,7 @@ export class Game {
   private npc: (Entity | null)[] = Array(10).fill(null);
   private tileM = new TileManager();
   private cChecker = new CollisionChecker(this.tileM, this.obj);
-  private aSetter = new AssetSetter(this.obj, this.npc);
+  private aSetter = new AssetSetter(this.obj, this.npc, this.cChecker);
   private ui = new UI();
   private player = new Player(
     this.input,

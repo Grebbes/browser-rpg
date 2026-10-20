@@ -13,7 +13,6 @@ const RUN_TICKS = [7, 5, 7, 5];
 
 export class Player extends Entity {
   private input: Input;
-  private cChecker: CollisionChecker;
   private obj: (SuperObject | null)[];
   private playSe: (i: number) => void;
   private ui: UI;
@@ -31,9 +30,8 @@ export class Player extends Entity {
     playSe: (i: number) => void,
     ui: UI,
   ) {
-    super();
+    super(cChecker);
     this.input = input;
-    this.cChecker = cChecker;
     this.solidArea = { x: 8, y: 16, width: 32, height: 32 };
     this.setDefaultValues();
     this.getPlayerImage();
