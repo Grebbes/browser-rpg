@@ -2,6 +2,7 @@ import type { Settings } from "@/services/settingService";
 import { AssetSetter } from "./AssetSetter";
 import { CollisionChecker } from "./CollisionChecker";
 import { screenHeight, screenWidth } from "./constants";
+import type { Entity } from "./entities/Entity";
 import { Player } from "./entities/Player";
 import { Input } from "./Input";
 import type { SuperObject } from "./objects/SuperObject";
@@ -21,9 +22,10 @@ export class Game {
   private delta = 0;
   private input = new Input();
   private obj: (SuperObject | null)[] = Array(10).fill(null);
+  private npc: (Entity | null)[] = Array(10).fill(null);
   private tileM = new TileManager();
   private cChecker = new CollisionChecker(this.tileM, this.obj);
-  private aSetter = new AssetSetter(this.obj);
+  private aSetter = new AssetSetter(this.obj, this.npc);
   private ui = new UI();
   private player = new Player(
     this.input,
@@ -52,6 +54,7 @@ export class Game {
 
   setupGame() {
     this.aSetter.setObject();
+    this.aSetter.setNpc();
     this.gameState = this.playState;
   }
 
@@ -189,6 +192,9 @@ export class Game {
     this.tileM.draw(this.ctx, this.player);
     for (const o of this.obj) {
       if (o) o.draw(this.ctx, this.player);
+    }
+    for (const n of this.npc) {
+      if (n) n.draw(this.ctx, this.player);
     }
     this.player.draw(this.ctx);
     this.ui.draw(this.ctx);

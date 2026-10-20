@@ -1,4 +1,6 @@
 import { tileSize } from "./constants";
+import type { Entity } from "./entities/Entity";
+import { NpcOldMan } from "./entities/NpcOldMan";
 import { BootsObject } from "./objects/BootsObject";
 import { ChestObject } from "./objects/ChestObject";
 import { DoorObject } from "./objects/DoorObject";
@@ -7,9 +9,11 @@ import type { SuperObject } from "./objects/SuperObject";
 
 export class AssetSetter {
   private obj: (SuperObject | null)[];
+  private npc: (Entity | null)[];
 
-  constructor(obj: (SuperObject | null)[]) {
+  constructor(obj: (SuperObject | null)[], npc: (Entity | null)[]) {
     this.obj = obj;
+    this.npc = npc;
   }
 
   private place(slot: number, object: SuperObject, col: number, row: number) {
@@ -29,5 +33,12 @@ export class AssetSetter {
     this.place(7, new DoorObject(), 38, 21);
     this.place(8, new ChestObject(), 22, 10);
     this.place(9, new BootsObject(), 39, 23);
+  }
+
+  setNpc() {
+    const oldMan = new NpcOldMan();
+    oldMan.worldX = tileSize * 21;
+    oldMan.worldY = tileSize * 34;
+    this.npc[0] = oldMan;
   }
 }
