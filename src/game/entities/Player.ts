@@ -111,6 +111,10 @@ export class Player extends Entity {
         this.spriteCounter = 0;
       }
     } else {
+      if (this.input.enterPressed) {
+        const npcIndex = this.cChecker.checkEntity(this, this.npc);
+        this.interactNpc(npcIndex);
+      }
       if (this.moving) {
         this.moving = false;
         this.frame = 0;
