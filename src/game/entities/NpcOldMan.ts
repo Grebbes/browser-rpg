@@ -22,14 +22,18 @@ export class NpcOldMan extends Entity {
   }
 
   setDialogue() {
-    this.dialogues[0] =
-      "You came looking for the old man, didn't you?\nI saw them drag him off the boat in chains.";
+    this.dialogues[0] = "Oh! A visitor... It has been\nquite some time.";
     this.dialogues[1] =
-      "Hooded figures, carrying him toward the caves.\nThis island looks peaceful up here,\nbut something rules below ground.";
-    this.dialogues[2] =
-      "If you want him back, you'll have to go down there.\nThough I wouldn't go into those caves\nlooking like that.";
+      "I have lived on this island longer\nthan I can remember. I've seen all sorts\ncome and go... people, and creatures.";
+    this.dialogues[2] = "Most leave. Some never do...";
     this.dialogues[3] =
-      "Take a look around the island first.\nYou'd be surprised what people\nleave lying about.";
+      "You're looking for the old man, yes?\nI saw them take him. Hooded ones,\nwith chains... into the caves.";
+    this.dialogues[4] =
+      "This island seems calm, doesn't it?\nBut deep below, something stirs...";
+    this.dialogues[5] =
+      "If you mean to save him, you must\ngo down there. But dressed like that?\nHa! You wouldn't last a moment.";
+    this.dialogues[6] =
+      "Search the island first.\nWho knows what you might find...";
   }
 
   setAction() {

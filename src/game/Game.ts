@@ -43,6 +43,7 @@ export class Game {
   readonly playState = 1;
   readonly pauseState = 2;
   readonly dialogueState = 3;
+  private stateBeforePause = this.playState;
   private currentDialogue: string | null = null;
   private onHudChange: (hud: HudState) => void;
   private lastHud: HudState = { keys: 0, message: null, dialogue: null };
@@ -118,13 +119,14 @@ export class Game {
 
   pause() {
     if (this.gameState === this.pauseState) return;
+    this.stateBeforePause = this.gameState;
     this.gameState = this.pauseState;
     this.music.pause();
   }
 
   resume() {
     if (this.gameState !== this.pauseState) return;
-    this.gameState = this.playState;
+    this.gameState = this.stateBeforePause;
 
     if (this.musicStarted) this.music.play();
   }
