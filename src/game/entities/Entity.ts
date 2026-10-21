@@ -17,6 +17,8 @@ export abstract class Entity {
   spriteCounter = 0;
   spriteNum = 1;
   actionLockCounter = 0;
+  dialogues: string[] = [];
+  dialogueIndex = 0;
 
   solidArea = { x: 0, y: 0, width: tileSize, height: tileSize };
   collisionOn = false;
@@ -31,6 +33,25 @@ export abstract class Entity {
   right2: HTMLCanvasElement | null = null;
 
   setAction() {}
+
+  speak(player: Player): string {
+    if (this.dialogueIndex >= this.dialogues.length) {
+      this.dialogueIndex = 0;
+    }
+    const line = this.dialogues[this.dialogueIndex];
+    this.dialogueIndex++;
+
+    if (player.direction === "up") {
+      this.direction = "down";
+    } else if (player.direction === "down") {
+      this.direction = "up";
+    } else if (player.direction === "left") {
+      this.direction = "right";
+    } else if (player.direction === "right") {
+      this.direction = "left";
+    }
+    return line;
+  }
 
   update(player: Player) {
     this.setAction();

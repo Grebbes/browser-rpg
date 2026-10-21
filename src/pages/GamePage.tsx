@@ -1,3 +1,4 @@
+import DialogBox from "@/components/DialogBox";
 import GameCanvas from "@/components/GameCanvas";
 import Hud from "@/components/Hud";
 import PauseMenu from "@/components/PauseMenu";
@@ -12,7 +13,11 @@ import { useNavigate, useSearchParams } from "react-router";
 export default function GamePage() {
   const [overlay, setOverlay] = useState<"none" | "pause" | "settings">("none");
   const paused = overlay !== "none";
-  const [hud, setHud] = useState<HudState>({ keys: 0, message: null });
+  const [hud, setHud] = useState<HudState>({
+    keys: 0,
+    message: null,
+    dialogue: null,
+  });
   const navigate = useNavigate();
   const gameRef = useRef<Game | null>(null);
   const [searchParams] = useSearchParams();
@@ -49,6 +54,7 @@ export default function GamePage() {
           slot={slot}
         />
         <Hud keys={hud.keys} message={hud.message} />
+        <DialogBox text={hud.dialogue} />
         <PauseMenu
           open={overlay === "pause"}
           onResume={() => setOverlay("none")}

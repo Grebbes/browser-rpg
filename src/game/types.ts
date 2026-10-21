@@ -3,6 +3,7 @@ import type { Direction } from "./entities/Entity";
 export type HudState = {
   keys: number;
   message: string | null;
+  dialogue: string | null;
 };
 
 export type SaveData = {

@@ -7,6 +7,7 @@ export class NpcOldMan extends Entity {
     this.direction = "down";
     this.speed = 1;
     this.getImage();
+    this.setDialogue();
   }
 
   getImage() {
@@ -18,6 +19,17 @@ export class NpcOldMan extends Entity {
     this.left2 = this.setup("npc/oldman_left_2");
     this.right1 = this.setup("npc/oldman_right_1");
     this.right2 = this.setup("npc/oldman_right_2");
+  }
+
+  setDialogue() {
+    this.dialogues[0] =
+      "You came looking for the old man, didn't you?\nI saw them drag him off the boat in chains.";
+    this.dialogues[1] =
+      "Hooded figures, carrying him toward the caves.\nThis island looks peaceful up here,\nbut something rules below ground.";
+    this.dialogues[2] =
+      "If you want him back, you'll have to go down there.\nThough I wouldn't go into those caves\nlooking like that.";
+    this.dialogues[3] =
+      "Take a look around the island first.\nYou'd be surprised what people\nleave lying about.";
   }
 
   setAction() {

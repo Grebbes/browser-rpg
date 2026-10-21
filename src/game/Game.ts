@@ -34,6 +34,7 @@ export class Game {
     this.npc,
     (i) => this.playSe(i),
     this.ui,
+    (text) => this.startDialogue(text),
   );
   private music = new Sound();
   private se = new Sound();
@@ -41,8 +42,10 @@ export class Game {
   gameState = 0;
   readonly playState = 1;
   readonly pauseState = 2;
+  readonly dialogueState = 3;
+  private currentDialogue: string | null = null;
   private onHudChange: (hud: HudState) => void;
-  private lastHud: HudState = { keys: 0, message: null };
+  private lastHud: HudState = { keys: 0, message: null, dialogue: null };
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -97,7 +100,11 @@ export class Game {
     if (save) this.loadSaveData(save);
     this.lastTime = performance.now();
     this.animationId = requestAnimationFrame(this.loop);
-    this.onHudChange({ keys: this.player.hasKeys, message: null });
+    this.onHudChange({
+      keys: this.player.hasKeys,
+      message: null,
+      dialogue: null,
+    });
   }
 
   stop() {
@@ -120,6 +127,11 @@ export class Game {
     this.gameState = this.playState;
 
     if (this.musicStarted) this.music.play();
+  }
+
+  private startDialogue(text: string) {
+    this.currentDialogue = text;
+    this.gameState = this.dialogueState;
   }
 
   private loop = (currentTime: number) => {
@@ -164,6 +176,12 @@ export class Game {
         if (n) n.update(this.player);
       }
       this.ui.update();
+    } else if (this.gameState === this.dialogueState) {
+      if (this.input.enterPressed) {
+        this.input.enterPressed = false;
+        this.currentDialogue = null;
+        this.gameState = this.playState;
+      }
     }
 
     this.syncHud();
@@ -173,11 +191,12 @@ export class Game {
     const hud: HudState = {
       keys: this.player.hasKeys,
       message: this.ui.currentMessage,
+      dialogue: this.currentDialogue,
     };
 
     if (
-      hud.keys !== this.lastHud.keys ||
-      hud.message !== this.lastHud.message
+      (hud.keys !== this.lastHud.keys || hud.message !== this.lastHud.message,
+      hud.dialogue !== this.lastHud.dialogue)
     ) {
       this.lastHud = hud;
       this.onHudChange(hud);

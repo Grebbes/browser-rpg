@@ -17,6 +17,7 @@ export class Player extends Entity {
   private npc: (Entity | null)[];
   private playSe: (i: number) => void;
   private ui: UI;
+  private startDialogue: (text: string) => void;
   hasKeys = 0;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
@@ -31,6 +32,7 @@ export class Player extends Entity {
     npc: (Entity | null)[],
     playSe: (i: number) => void,
     ui: UI,
+    startDialogue: (text: string) => void,
   ) {
     super(cChecker);
     this.input = input;
@@ -41,6 +43,7 @@ export class Player extends Entity {
     this.npc = npc;
     this.playSe = playSe;
     this.ui = ui;
+    this.startDialogue = startDialogue;
   }
 
   setDefaultValues() {
@@ -119,6 +122,7 @@ export class Player extends Entity {
         this.spriteCounter = 0;
       }
     }
+    this.input.enterPressed = false;
   }
 
   pickUpObject(i: number | null) {
@@ -160,7 +164,11 @@ export class Player extends Entity {
 
   interactNpc(i: number | null) {
     if (i === null) return;
-    this.ui.showMessage("You are hitting an NPC!");
+
+    if (this.input.enterPressed) {
+      const npc = this.npc[i];
+      if (npc) this.startDialogue(npc.speak(this));
+    }
   }
 
   draw(ctx: CanvasRenderingContext2D) {
