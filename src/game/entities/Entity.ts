@@ -34,7 +34,8 @@ export abstract class Entity {
 
   setAction() {}
 
-  speak(player: Player): string {
+  speak(player: Player): string | null {
+    if (this.dialogues.length === 0) return null;
     if (this.dialogueIndex >= this.dialogues.length) {
       this.dialogueIndex = 0;
     }

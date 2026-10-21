@@ -171,7 +171,11 @@ export class Player extends Entity {
 
     if (this.input.enterPressed) {
       const npc = this.npc[i];
-      if (npc) this.startDialogue(npc.speak(this));
+      if (!npc) return;
+      const dialogue = npc.speak(this);
+      if (dialogue) {
+        this.startDialogue(dialogue);
+      }
     }
   }
 
