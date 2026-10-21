@@ -10,7 +10,7 @@ export default function DialogBox({ text }: Props) {
     <PixelPanel
       role="status"
       aria-live="polite"
-      className="pointer-events-none absolute top-6 right-24 left-24 h-48 bg-black/80 p-10 text-sm leading-loose whitespace-pre-line"
+      className="pointer-events-none absolute top-6 right-24 left-24 h-48 bg-black/80 p-10 font-body text-3xl leading-snug whitespace-pre-line"
     >
       {text}
     </PixelPanel>
