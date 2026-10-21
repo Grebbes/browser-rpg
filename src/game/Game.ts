@@ -197,8 +197,9 @@ export class Game {
     };
 
     if (
-      (hud.keys !== this.lastHud.keys || hud.message !== this.lastHud.message,
-      hud.dialogue !== this.lastHud.dialogue)
+      hud.keys !== this.lastHud.keys ||
+      hud.message !== this.lastHud.message ||
+      hud.dialogue !== this.lastHud.dialogue
     ) {
       this.lastHud = hud;
       this.onHudChange(hud);
