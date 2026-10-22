@@ -23,8 +23,8 @@ npm install
 npm run dev
 ```
 
-RyiSnows tiles, karta och ljud ligger inte i repot och behöver finnas lokalt för att spelet ska starta.
+
 
 ## Credits
 
-Inspirerat av RyiSnows tutorialserie. Tiles, karta och ljud är tillfälligt hans och byts ut mot egna, liksom kommande monster och banor.
+Inspirerat av RyiSnows tutorialserie. Ljud är tillfälligt hans och byts ut mot egna, liksom kommande monster och banor.
