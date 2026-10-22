@@ -51,6 +51,9 @@ export class Player extends Entity {
     this.worldY = tileSize * 36;
     this.speed = 4;
 
+    this.maxLife = 6;
+    this.life = this.maxLife;
+
     this.direction = "down";
   }
 
