@@ -55,7 +55,12 @@ export default function GamePage() {
           gameRef={gameRef}
           slot={slot}
         />
-        <Hud keys={hud.keys} message={hud.message} />
+        <Hud
+          keys={hud.keys}
+          life={hud.life}
+          maxLife={hud.maxLife}
+          message={hud.message}
+        />
         <DialogBox text={hud.dialogue} />
         <PauseMenu
           open={overlay === "pause"}
