@@ -47,6 +47,8 @@ export class Game {
   private currentDialogue: string | null = null;
   private dialogueNpc: Entity | null = null;
   private dialogueCharIndex = 0;
+  private dialogueFrameCounter = 0;
+  private readonly textDelay = 3;
   private onHudChange: (hud: HudState) => void;
   private lastHud: HudState = { keys: 0, message: null, dialogue: null };
 
@@ -187,7 +189,11 @@ export class Game {
         this.currentDialogue &&
         this.dialogueCharIndex < this.currentDialogue.length
       ) {
-        this.dialogueCharIndex++;
+        this.dialogueFrameCounter++;
+        if (this.dialogueFrameCounter >= this.textDelay) {
+          this.dialogueCharIndex++;
+          this.dialogueFrameCounter = 0;
+        }
       }
       if (this.input.enterPressed) {
         this.input.enterPressed = false;
