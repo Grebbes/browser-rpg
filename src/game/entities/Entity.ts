@@ -14,6 +14,9 @@ export abstract class Entity {
   speed = 0;
   direction: Direction = "down";
 
+  maxLife = 0;
+  life = 0;
+
   spriteCounter = 0;
   spriteNum = 1;
   actionLockCounter = 0;
