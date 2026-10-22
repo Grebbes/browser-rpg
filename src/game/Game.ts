@@ -50,7 +50,13 @@ export class Game {
   private dialogueFrameCounter = 0;
   private readonly textDelay = 3;
   private onHudChange: (hud: HudState) => void;
-  private lastHud: HudState = { keys: 0, message: null, dialogue: null };
+  private lastHud: HudState = {
+    keys: 0,
+    life: 0,
+    maxLife: 0,
+    message: null,
+    dialogue: null,
+  };
 
   constructor(
     ctx: CanvasRenderingContext2D,
@@ -107,6 +113,8 @@ export class Game {
     this.animationId = requestAnimationFrame(this.loop);
     this.onHudChange({
       keys: this.player.hasKeys,
+      life: this.player.life,
+      maxLife: this.player.maxLife,
       message: null,
       dialogue: null,
     });
@@ -223,12 +231,16 @@ export class Game {
   private syncHud() {
     const hud: HudState = {
       keys: this.player.hasKeys,
+      life: this.player.life,
+      maxLife: this.player.maxLife,
       message: this.ui.currentMessage,
       dialogue: this.currentDialogue?.slice(0, this.dialogueCharIndex) ?? null,
     };
 
     if (
       hud.keys !== this.lastHud.keys ||
+      hud.life !== this.lastHud.life ||
+      hud.maxLife !== this.lastHud.maxLife ||
       hud.message !== this.lastHud.message ||
       hud.dialogue !== this.lastHud.dialogue
     ) {

@@ -15,6 +15,8 @@ export default function GamePage() {
   const paused = overlay !== "none";
   const [hud, setHud] = useState<HudState>({
     keys: 0,
+    life: 0,
+    maxLife: 0,
     message: null,
     dialogue: null,
   });

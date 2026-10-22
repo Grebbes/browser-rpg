@@ -2,6 +2,8 @@ import type { Direction } from "./entities/Entity";
 
 export type HudState = {
   keys: number;
+  life: number;
+  maxLife: number;
   message: string | null;
   dialogue: string | null;
 };
