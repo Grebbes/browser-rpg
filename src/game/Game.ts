@@ -183,9 +183,14 @@ export class Game {
     } else if (this.gameState === this.dialogueState) {
       if (this.input.enterPressed) {
         this.input.enterPressed = false;
-        this.currentDialogue = null;
-        this.dialogueNpc = null;
-        this.gameState = this.playState;
+        const nextDialogue = this.dialogueNpc?.speak(this.player);
+        if (nextDialogue) {
+          this.currentDialogue = nextDialogue;
+        } else {
+          this.currentDialogue = null;
+          this.dialogueNpc = null;
+          this.gameState = this.playState;
+        }
       }
     }
 
