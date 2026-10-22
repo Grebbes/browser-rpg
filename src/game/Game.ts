@@ -34,7 +34,7 @@ export class Game {
     this.npc,
     (i) => this.playSe(i),
     this.ui,
-    (text) => this.startDialogue(text),
+    (npc, text) => this.startDialogue(npc, text),
   );
   private music = new Sound();
   private se = new Sound();
@@ -45,6 +45,7 @@ export class Game {
   readonly dialogueState = 3;
   private stateBeforePause = this.playState;
   private currentDialogue: string | null = null;
+  private dialogueNpc: Entity | null = null;
   private onHudChange: (hud: HudState) => void;
   private lastHud: HudState = { keys: 0, message: null, dialogue: null };
 
@@ -131,7 +132,8 @@ export class Game {
     if (this.musicStarted) this.music.play();
   }
 
-  private startDialogue(text: string) {
+  private startDialogue(npc: Entity, text: string) {
+    this.dialogueNpc = npc;
     this.currentDialogue = text;
     this.gameState = this.dialogueState;
   }
@@ -182,6 +184,7 @@ export class Game {
       if (this.input.enterPressed) {
         this.input.enterPressed = false;
         this.currentDialogue = null;
+        this.dialogueNpc = null;
         this.gameState = this.playState;
       }
     }

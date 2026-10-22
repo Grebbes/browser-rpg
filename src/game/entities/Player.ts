@@ -17,7 +17,7 @@ export class Player extends Entity {
   private npc: (Entity | null)[];
   private playSe: (i: number) => void;
   private ui: UI;
-  private startDialogue: (text: string) => void;
+  private startDialogue: (npc: Entity, text: string) => void;
   hasKeys = 0;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
@@ -32,7 +32,7 @@ export class Player extends Entity {
     npc: (Entity | null)[],
     playSe: (i: number) => void,
     ui: UI,
-    startDialogue: (text: string) => void,
+    startDialogue: (npc: Entity, text: string) => void,
   ) {
     super(cChecker);
     this.input = input;
@@ -174,7 +174,7 @@ export class Player extends Entity {
       if (!npc) return;
       const dialogue = npc.speak(this);
       if (dialogue) {
-        this.startDialogue(dialogue);
+        this.startDialogue(npc, dialogue);
       }
     }
   }
