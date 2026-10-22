@@ -33,7 +33,11 @@ export class NpcOldMan extends Entity {
     this.dialogues[5] =
       "If you mean to save him, you must\ngo down there. But dressed like that?\nHa! You wouldn't last a moment.";
     this.dialogues[6] =
-      "Search the island first.\nWho knows what you might find...";
+      "Long ago, this island belonged to\nthe Keepers. They guarded something\nsealed deep beneath the rock.";
+    this.dialogues[7] =
+      "The Keepers are gone now, but their\nruins remain... and so do the things\nthey left behind.";
+    this.dialogues[8] =
+      "Off you go, then. And keep\nyour eyes open... this island\nhides more than it shows.";
   }
 
   setAction() {
