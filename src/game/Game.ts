@@ -130,6 +130,7 @@ export class Game {
 
   resume() {
     if (this.gameState !== this.pauseState) return;
+    this.input.enterPressed = false;
     this.gameState = this.stateBeforePause;
 
     if (this.musicStarted) this.music.play();
