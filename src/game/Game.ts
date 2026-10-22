@@ -197,14 +197,21 @@ export class Game {
       }
       if (this.input.enterPressed) {
         this.input.enterPressed = false;
-        const nextDialogue = this.dialogueNpc?.speak(this.player);
-        if (nextDialogue) {
-          this.currentDialogue = nextDialogue;
-          this.dialogueCharIndex = 0;
+        if (
+          this.currentDialogue &&
+          this.dialogueCharIndex < this.currentDialogue.length
+        ) {
+          this.dialogueCharIndex = this.currentDialogue.length;
         } else {
-          this.currentDialogue = null;
-          this.dialogueNpc = null;
-          this.gameState = this.playState;
+          const nextDialogue = this.dialogueNpc?.speak(this.player);
+          if (nextDialogue) {
+            this.currentDialogue = nextDialogue;
+            this.dialogueCharIndex = 0;
+          } else {
+            this.currentDialogue = null;
+            this.gameState = this.playState;
+            this.dialogueNpc = null;
+          }
         }
       }
     }
