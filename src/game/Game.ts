@@ -46,6 +46,7 @@ export class Game {
   private stateBeforePause = this.playState;
   private currentDialogue: string | null = null;
   private dialogueNpc: Entity | null = null;
+  private dialogueCharIndex = 0;
   private onHudChange: (hud: HudState) => void;
   private lastHud: HudState = { keys: 0, message: null, dialogue: null };
 
@@ -135,6 +136,7 @@ export class Game {
   private startDialogue(npc: Entity, text: string) {
     this.dialogueNpc = npc;
     this.currentDialogue = text;
+    this.dialogueCharIndex = 0;
     this.gameState = this.dialogueState;
   }
 
@@ -181,11 +183,18 @@ export class Game {
       }
       this.ui.update();
     } else if (this.gameState === this.dialogueState) {
+      if (
+        this.currentDialogue &&
+        this.dialogueCharIndex < this.currentDialogue.length
+      ) {
+        this.dialogueCharIndex++;
+      }
       if (this.input.enterPressed) {
         this.input.enterPressed = false;
         const nextDialogue = this.dialogueNpc?.speak(this.player);
         if (nextDialogue) {
           this.currentDialogue = nextDialogue;
+          this.dialogueCharIndex = 0;
         } else {
           this.currentDialogue = null;
           this.dialogueNpc = null;
@@ -201,7 +210,7 @@ export class Game {
     const hud: HudState = {
       keys: this.player.hasKeys,
       message: this.ui.currentMessage,
-      dialogue: this.currentDialogue,
+      dialogue: this.currentDialogue?.slice(0, this.dialogueCharIndex) ?? null,
     };
 
     if (

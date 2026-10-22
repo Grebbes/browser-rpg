@@ -5,7 +5,7 @@ type Props = {
 };
 
 export default function DialogBox({ text }: Props) {
-  if (!text) return null;
+  if (text === null) return null;
   return (
     <PixelPanel
       role="status"
