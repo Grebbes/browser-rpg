@@ -144,7 +144,7 @@ export class Game {
     if (this.musicStarted) this.music.play();
   }
 
-  private startDialogue(npc: Entity, text: string) {
+  private startDialogue(npc: Entity | null, text: string) {
     this.dialogueNpc = npc;
     this.currentDialogue = text;
     this.dialogueCharIndex = 0;
