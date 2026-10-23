@@ -1,7 +1,7 @@
 # Browser RPG
 
 Ett top-down 2D-RPG i webbläsaren, byggt med React, TypeScript och HTML canvas.
-Inspirerat av RyiSnows serie _How to Make a 2D Game in Java_. Grafik, banor och monster blir egna.
+
 
 ## Status
 
@@ -23,8 +23,8 @@ npm install
 npm run dev
 ```
 
-RyiSnows tiles, karta och ljud ligger inte i repot och behöver finnas lokalt för att spelet ska starta.
+
 
 ## Credits
 
-Inspirerat av RyiSnows tutorialserie. Tiles, karta och ljud är tillfälligt hans och byts ut mot egna, liksom kommande monster och banor.
+Inspirerat av RyiSnows tutorialserie. Ljud är tillfälligt hans och byts ut mot egna, liksom kommande monster och banor.
