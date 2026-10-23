@@ -34,7 +34,7 @@ export class TileManager {
     this.setup(4, "tree", true);
     this.setup(5, "sand", false);
     this.setupAnimation(6, ["tallgrass", "tallgrass_2", "tallgrass_3"], false);
-    this.setup(7, "flowers", false);
+    this.setupAnimation(7, ["flowers", "flowers_2", "flowers_3"], false);
     this.setup(8, "bush", true);
     this.setup(9, "rock", true);
     this.setup(10, "shore_n", true);
@@ -50,6 +50,9 @@ export class TileManager {
     this.setup(20, "shore_out_sw", true);
     this.setup(21, "shore_out_se", true);
     this.setup(22, "cave", false);
+    this.setup(23, "pit_hidden", false);
+    this.setup(24, "pit", true);
+    this.setupAnimation(25, ["fountain", "fountain_2", "fountain_3"], true);
   }
 
   setup(index: number, imageName: string, collision: boolean) {
