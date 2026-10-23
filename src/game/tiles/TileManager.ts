@@ -29,7 +29,7 @@ export class TileManager {
   getTileImage() {
     this.setup(0, "grass", false);
     this.setup(1, "wall", true);
-    this.setup(2, "water", true);
+    this.setupAnimation(2, ["water", "water_2", "water_3"], true);
     this.setup(3, "earth", false);
     this.setup(4, "tree", true);
     this.setup(5, "sand", false);
@@ -37,18 +37,34 @@ export class TileManager {
     this.setupAnimation(7, ["flowers", "flowers_2", "flowers_3"], false);
     this.setup(8, "bush", true);
     this.setup(9, "rock", true);
-    this.setup(10, "shore_n", true);
-    this.setup(11, "shore_s", true);
-    this.setup(12, "shore_w", true);
-    this.setup(13, "shore_e", true);
-    this.setup(14, "shore_nw", true);
-    this.setup(15, "shore_ne", true);
-    this.setup(16, "shore_sw", true);
-    this.setup(17, "shore_se", true);
-    this.setup(18, "shore_out_nw", true);
-    this.setup(19, "shore_out_ne", true);
-    this.setup(20, "shore_out_sw", true);
-    this.setup(21, "shore_out_se", true);
+    this.setupAnimation(10, ["shore_n", "shore_n_2", "shore_n_3"], true);
+    this.setupAnimation(11, ["shore_s", "shore_s_2", "shore_s_3"], true);
+    this.setupAnimation(12, ["shore_w", "shore_w_2", "shore_w_3"], true);
+    this.setupAnimation(13, ["shore_e", "shore_e_2", "shore_e_3"], true);
+    this.setupAnimation(14, ["shore_nw", "shore_nw_2", "shore_nw_3"], true);
+    this.setupAnimation(15, ["shore_ne", "shore_ne_2", "shore_ne_3"], true);
+    this.setupAnimation(16, ["shore_sw", "shore_sw_2", "shore_sw_3"], true);
+    this.setupAnimation(17, ["shore_se", "shore_se_2", "shore_se_3"], true);
+    this.setupAnimation(
+      18,
+      ["shore_out_nw", "shore_out_nw_2", "shore_out_nw_3"],
+      true,
+    );
+    this.setupAnimation(
+      19,
+      ["shore_out_ne", "shore_out_ne_2", "shore_out_ne_3"],
+      true,
+    );
+    this.setupAnimation(
+      20,
+      ["shore_out_sw", "shore_out_sw_2", "shore_out_sw_3"],
+      true,
+    );
+    this.setupAnimation(
+      21,
+      ["shore_out_se", "shore_out_se_2", "shore_out_se_3"],
+      true,
+    );
     this.setup(22, "cave", false);
     this.setup(23, "pit_hidden", false);
     this.setup(24, "pit", true);
