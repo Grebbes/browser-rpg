@@ -48,6 +48,11 @@ export class Game {
   readonly playState = 1;
   readonly pauseState = 2;
   readonly dialogueState = 3;
+  readonly transitionState = 4;
+  private transitionAlpha = 0;
+  private transitionFadingOut = false;
+  private onTransitionBlack: (() => void) | null = null;
+  private readonly transitionSpeed = 0.05;
   private stateBeforePause = this.playState;
   private currentDialogue: string | null = null;
   private dialogueNpc: Entity | null = null;
@@ -156,6 +161,13 @@ export class Game {
     this.gameState = this.dialogueState;
   }
 
+  private startTransition(onBlack: () => void) {
+    this.onTransitionBlack = onBlack;
+    this.transitionAlpha = 0;
+    this.transitionFadingOut = true;
+    this.gameState = this.transitionState;
+  }
+
   private loop = (currentTime: number) => {
     this.delta += (currentTime - this.lastTime) / this.drawInterval;
     this.timer += currentTime - this.lastTime;
@@ -228,6 +240,7 @@ export class Game {
           }
         }
       }
+    } else if (this.gameState === this.transitionState) {
     }
 
     this.syncHud();
