@@ -55,7 +55,7 @@ export class Game {
   private transitionAlpha = 0;
   private transitionFadingOut = false;
   private onTransitionBlack: (() => void) | null = null;
-  private readonly transitionSpeed = 0.05;
+  private readonly transitionSpeed = 0.03;
   private stateBeforePause = this.playState;
   private currentDialogue: string | null = null;
   private dialogueNpc: Entity | null = null;
