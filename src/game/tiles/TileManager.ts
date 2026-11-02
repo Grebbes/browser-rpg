@@ -67,7 +67,7 @@ export class TileManager {
     );
     this.setup(22, "cave", false);
     this.setup(23, "pit_hidden", false);
-    this.setup(24, "pit", true);
+    this.setup(24, "pit", false);
     this.setupAnimation(25, ["fountain", "fountain_2", "fountain_3"], true);
   }
 
