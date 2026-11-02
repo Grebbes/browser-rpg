@@ -28,8 +28,11 @@ export class Game {
   private cChecker = new CollisionChecker(this.tileM, this.obj);
   private aSetter = new AssetSetter(this.obj, this.npc, this.cChecker);
   private ui = new UI();
-  private eventH = new EventHandler(this.input, this.tileM, (npc, text) =>
-    this.startDialogue(npc, text),
+  private eventH = new EventHandler(
+    this.input,
+    this.tileM,
+    (npc, text) => this.startDialogue(npc, text),
+    (onBlack) => this.startTransition(onBlack),
   );
   private player = new Player(
     this.input,
@@ -241,6 +244,21 @@ export class Game {
         }
       }
     } else if (this.gameState === this.transitionState) {
+      if (this.transitionFadingOut) {
+        this.transitionAlpha += this.transitionSpeed;
+        if (this.transitionAlpha >= 1) {
+          this.transitionAlpha = 1;
+          this.transitionFadingOut = false;
+          this.onTransitionBlack?.();
+          this.onTransitionBlack = null;
+        }
+      } else {
+        this.transitionAlpha -= this.transitionSpeed;
+        if (this.transitionAlpha <= 0) {
+          this.transitionAlpha = 0;
+          this.gameState = this.playState;
+        }
+      }
     }
 
     this.syncHud();
@@ -285,6 +303,13 @@ export class Game {
     }
     this.player.draw(this.ctx);
     this.ui.draw(this.ctx);
+
+    if (this.transitionAlpha > 0) {
+      this.ctx.globalAlpha = this.transitionAlpha;
+      this.ctx.fillStyle = "black";
+      this.ctx.fillRect(0, 0, screenWidth, screenHeight);
+      this.ctx.globalAlpha = 1;
+    }
 
     if (this.input.checkDrawTime) {
       const drawEnd = performance.now();

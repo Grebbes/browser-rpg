@@ -8,16 +8,19 @@ export class EventHandler {
   private input: Input;
   private tileM: TileManager;
   private startDialogue: (npc: Entity | null, text: string) => void;
+  private startTransition: (onBlack: () => void) => void;
   private eventRect: Rect = { x: 23, y: 23, width: 2, height: 2 };
 
   constructor(
     input: Input,
     tileM: TileManager,
     startDialogue: (npc: Entity | null, text: string) => void,
+    startTransition: (onBlack: () => void) => void,
   ) {
     this.input = input;
     this.tileM = tileM;
     this.startDialogue = startDialogue;
+    this.startTransition = startTransition;
   }
 
   checkEvent(player: Entity) {
@@ -62,30 +65,31 @@ export class EventHandler {
   }
 
   pitTrap(player: Entity, col: number, row: number) {
-    this.startDialogue(null, "The leaves give way...\nYou fall into a pit!");
-    player.life--;
-    this.tileM.mapTileNum[col][row] = 24;
+    this.startTransition(() => {
+      player.life--;
+      this.tileM.mapTileNum[col][row] = 24;
 
-    let backCol = col;
-    let backRow = row;
+      let backCol = col;
+      let backRow = row;
 
-    switch (player.direction) {
-      case "up":
-        backRow++;
-        break;
-      case "down":
-        backRow--;
-        break;
-      case "left":
-        backCol++;
-        break;
-      case "right":
-        backCol--;
-        break;
-    }
+      switch (player.direction) {
+        case "up":
+          backRow++;
+          break;
+        case "down":
+          backRow--;
+          break;
+        case "left":
+          backCol++;
+          break;
+        case "right":
+          backCol--;
+          break;
+      }
 
-    player.worldX = backCol * tileSize;
-    player.worldY = backRow * tileSize;
+      player.worldX = backCol * tileSize;
+      player.worldY = backRow * tileSize;
+    });
   }
 
   healingFountain(player: Entity) {
