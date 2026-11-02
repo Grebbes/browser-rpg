@@ -4,6 +4,7 @@ import { CollisionChecker } from "./CollisionChecker";
 import { screenHeight, screenWidth } from "./constants";
 import type { Entity } from "./entities/Entity";
 import { Player } from "./entities/Player";
+import { EventHandler } from "./EventHandler";
 import { Input } from "./Input";
 import type { SuperObject } from "./objects/SuperObject";
 import { Sound } from "./Sound";
@@ -27,6 +28,9 @@ export class Game {
   private cChecker = new CollisionChecker(this.tileM, this.obj);
   private aSetter = new AssetSetter(this.obj, this.npc, this.cChecker);
   private ui = new UI();
+  private eventH = new EventHandler(this.input, this.tileM, (npc, text) =>
+    this.startDialogue(npc, text),
+  );
   private player = new Player(
     this.input,
     this.cChecker,
@@ -35,6 +39,7 @@ export class Game {
     (i) => this.playSe(i),
     this.ui,
     (npc, text) => this.startDialogue(npc, text),
+    this.eventH,
   );
   private music = new Sound();
   private se = new Sound();

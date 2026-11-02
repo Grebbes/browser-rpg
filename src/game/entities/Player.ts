@@ -1,5 +1,6 @@
 import type { CollisionChecker } from "../CollisionChecker";
 import { scale, screenHeight, screenWidth, tileSize } from "../constants";
+import type { EventHandler } from "../EventHandler";
 import { Input } from "../Input";
 import { SuperObject } from "../objects/SuperObject";
 import { scaleImage } from "../scaleImage";
@@ -18,6 +19,7 @@ export class Player extends Entity {
   private playSe: (i: number) => void;
   private ui: UI;
   private startDialogue: (npc: Entity, text: string) => void;
+  private eventH: EventHandler;
   hasKeys = 0;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
@@ -33,6 +35,7 @@ export class Player extends Entity {
     playSe: (i: number) => void,
     ui: UI,
     startDialogue: (npc: Entity, text: string) => void,
+    eventH: EventHandler,
   ) {
     super(cChecker);
     this.input = input;
@@ -44,6 +47,7 @@ export class Player extends Entity {
     this.playSe = playSe;
     this.ui = ui;
     this.startDialogue = startDialogue;
+    this.eventH = eventH;
   }
 
   setDefaultValues() {
@@ -89,6 +93,7 @@ export class Player extends Entity {
       this.pickUpObject(objectIndex);
       const npcIndex = this.cChecker.checkEntity(this, this.npc);
       this.interactNpc(npcIndex);
+      this.eventH.checkEvent(this);
 
       if (!this.collisionOn) {
         switch (this.direction) {
@@ -117,6 +122,7 @@ export class Player extends Entity {
       if (this.input.enterPressed) {
         const npcIndex = this.cChecker.checkEntity(this, this.npc);
         this.interactNpc(npcIndex);
+        this.eventH.checkEvent(this);
       }
       if (this.moving) {
         this.moving = false;

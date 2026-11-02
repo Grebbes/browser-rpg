@@ -20,6 +20,20 @@ export class EventHandler {
     this.startDialogue = startDialogue;
   }
 
+  checkEvent(player: Entity) {
+    if (this.hit(player, 29, 28, null)) {
+      this.pitTrap(player, 29, 28);
+    }
+    if (
+      this.hit(player, 19, 31, "up") ||
+      this.hit(player, 19, 29, "down") ||
+      this.hit(player, 18, 30, "right") ||
+      this.hit(player, 20, 30, "left")
+    ) {
+      this.healingFountain(player);
+    }
+  }
+
   hit(
     player: Entity,
     col: number,
