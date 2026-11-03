@@ -222,6 +222,12 @@ export class Game {
         this.dialogueFrameCounter++;
         if (this.dialogueFrameCounter >= this.textDelay) {
           this.dialogueCharIndex++;
+          if (
+            this.dialogueCharIndex % 3 === 1 &&
+            this.currentDialogue[this.dialogueCharIndex - 1] !== " "
+          ) {
+            this.playSe(7);
+          }
           this.dialogueFrameCounter = 0;
         }
       }

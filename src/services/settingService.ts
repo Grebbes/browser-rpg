@@ -13,7 +13,7 @@ export type Settings = {
 
 export const DEFAULT_SETTINGS: Settings = {
   version: 1,
-  musicVolume: 70,
+  musicVolume: 10,
   sfxVolume: 80,
   muted: false,
   keys: { up: "KeyW", down: "KeyS", left: "KeyA", right: "KeyD" },
