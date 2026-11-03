@@ -1,5 +1,6 @@
 export class Sound {
   private audio: HTMLAudioElement | null = null;
+  private cache = new Map<number, HTMLAudioElement>();
   private volume = 1;
 
   private urls = [
@@ -13,9 +14,23 @@ export class Sound {
     "/audio/blip.wav",
   ];
 
+  preLoad() {
+    this.urls.forEach((url, i) => {
+      const a = new Audio(url);
+      a.preload = "auto";
+      this.cache.set(i, a);
+    });
+  }
+
   setFile(i: number) {
-    this.audio = new Audio(this.urls[i]);
-    this.audio.volume = this.volume;
+    let sound = this.cache.get(i);
+    if (!sound) {
+      sound = new Audio(this.urls[i]);
+      this.cache.set(i, sound);
+    }
+    sound.currentTime = 0;
+    sound.volume = this.volume;
+    this.audio = sound;
   }
 
   setVolume(volume: number) {

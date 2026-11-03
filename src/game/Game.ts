@@ -84,6 +84,7 @@ export class Game {
   setupGame() {
     this.aSetter.setObject();
     this.aSetter.setNpc();
+    this.se.preLoad();
     this.gameState = this.playState;
   }
 
