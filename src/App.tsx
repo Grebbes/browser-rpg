@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router";
+import { useMenuMusic } from "./hooks/useMenuMusic";
 import GamePage from "./pages/GamePage";
 import HowToPlayPage from "./pages/HowToPlayPage";
 import SaveSlotsPage from "./pages/SaveSlotsPage";
@@ -6,6 +7,7 @@ import SettingsPage from "./pages/SettingsPage";
 import StartPage from "./pages/StartPage";
 
 function App() {
+  useMenuMusic();
   return (
     <Routes>
       <Route path="/" element={<StartPage />} />
