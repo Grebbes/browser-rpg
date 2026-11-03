@@ -4,10 +4,12 @@ export class Sound {
 
   private urls = [
     "/sound/BlueBoyAdventure.wav",
-    "/sound/coin.wav", //key/coing
-    "/sound/powerup.wav", //boots
-    "/sound/unlock.wav", //dörr
-    "/sound/fanfare.wav", //kistan
+    "/audio/key.wav",
+    "/audio/boots.wav",
+    "/audio/door.wav",
+    "/audio/chest.wav",
+    "/audio/fall.wav",
+    "/audio/heal.wav",
   ];
 
   setFile(i: number) {
