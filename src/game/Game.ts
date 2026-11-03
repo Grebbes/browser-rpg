@@ -33,6 +33,7 @@ export class Game {
     this.tileM,
     (npc, text) => this.startDialogue(npc, text),
     (onBlack) => this.startTransition(onBlack),
+    (i) => this.playSe(i),
   );
   private player = new Player(
     this.input,

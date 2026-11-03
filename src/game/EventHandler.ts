@@ -9,6 +9,7 @@ export class EventHandler {
   private tileM: TileManager;
   private startDialogue: (npc: Entity | null, text: string) => void;
   private startTransition: (onBlack: () => void) => void;
+  private playSe: (i: number) => void;
   private eventRect: Rect = { x: 23, y: 23, width: 2, height: 2 };
 
   constructor(
@@ -16,11 +17,13 @@ export class EventHandler {
     tileM: TileManager,
     startDialogue: (npc: Entity | null, text: string) => void,
     startTransition: (onBlack: () => void) => void,
+    playSe: (i: number) => void,
   ) {
     this.input = input;
     this.tileM = tileM;
     this.startDialogue = startDialogue;
     this.startTransition = startTransition;
+    this.playSe = playSe;
   }
 
   checkEvent(player: Entity) {
@@ -65,6 +68,7 @@ export class EventHandler {
   }
 
   pitTrap(player: Entity, col: number, row: number) {
+    this.playSe(5);
     this.startTransition(() => {
       player.life--;
       this.tileM.mapTileNum[col][row] = 24;
@@ -94,6 +98,7 @@ export class EventHandler {
 
   healingFountain(player: Entity) {
     if (this.input.enterPressed) {
+      this.playSe(6);
       this.startDialogue(
         null,
         "You drink from the ancient fountain.\nYour life has been restored.",
