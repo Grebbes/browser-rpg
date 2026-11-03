@@ -3,13 +3,14 @@ export class Sound {
   private volume = 1;
 
   private urls = [
-    "/sound/BlueBoyAdventure.wav",
+    "/audio/island_theme.wav",
     "/audio/key.wav",
     "/audio/boots.wav",
     "/audio/door.wav",
     "/audio/chest.wav",
     "/audio/fall.wav",
     "/audio/heal.wav",
+    "/audio/blip.wav",
   ];
 
   setFile(i: number) {
