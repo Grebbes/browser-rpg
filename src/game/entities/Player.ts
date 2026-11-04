@@ -20,7 +20,7 @@ export class Player extends Entity {
   private ui: UI;
   private startDialogue: (npc: Entity, text: string) => void;
   private eventH: EventHandler;
-  hasKeys = 0;
+  hasKeys = 10;
   readonly screenX = screenWidth / 2 - tileSize / 2;
   readonly screenY = screenHeight / 2 - tileSize / 2;
   private sheet: HTMLCanvasElement | null = null;
