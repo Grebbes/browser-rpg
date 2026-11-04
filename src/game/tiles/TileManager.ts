@@ -69,6 +69,7 @@ export class TileManager {
     this.setup(23, "pit_hidden", false);
     this.setup(24, "pit", false);
     this.setupAnimation(25, ["fountain", "fountain_2", "fountain_3"], true);
+    this.setup(26, "pit", true);
   }
 
   setup(index: number, imageName: string, collision: boolean) {
