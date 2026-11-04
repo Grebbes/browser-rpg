@@ -22,7 +22,7 @@ export class Game {
   private drawInterval = 1000 / this.fps;
   private delta = 0;
   private input = new Input();
-  private obj: (SuperObject | null)[] = Array(10).fill(null);
+  private obj: (SuperObject | null)[] = Array(11).fill(null);
   private npc: (Entity | null)[] = Array(10).fill(null);
   private tileM = new TileManager();
   private cChecker = new CollisionChecker(this.tileM, this.obj);

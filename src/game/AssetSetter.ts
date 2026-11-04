@@ -7,6 +7,7 @@ import { ChestObject } from "./objects/ChestObject";
 import { DoorObject } from "./objects/DoorObject";
 import { KeyObject } from "./objects/KeyObject";
 import type { SuperObject } from "./objects/SuperObject";
+import { SwordObject } from "./objects/SwordObject";
 
 export class AssetSetter {
   private obj: (SuperObject | null)[];
@@ -40,6 +41,7 @@ export class AssetSetter {
     this.place(7, new DoorObject(), 38, 21);
     this.place(8, new ChestObject(), 22, 10);
     this.place(9, new BootsObject(), 39, 23);
+    this.place(10, new SwordObject(), 19, 16);
   }
 
   setNpc() {
