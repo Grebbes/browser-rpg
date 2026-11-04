@@ -58,6 +58,9 @@ export class EventHandler {
       if (this.hit(player, 20, 15, "left")) {
         this.swordFalls(20, 15);
       }
+      if (this.hit(player, 19, 15, "down") && this.eventDone[20][15]) {
+        this.pitWarning(player);
+      }
     }
   }
 
@@ -138,5 +141,15 @@ export class EventHandler {
       "The ground gives way!\nThe sword tumbles into the darkness below...",
     );
     this.eventDone[col][row] = true;
+  }
+
+  pitWarning(player: Entity) {
+    this.startDialogue(
+      null,
+      "This fall looks steep\nI should not get too close!",
+    );
+    this.canTouchEvent = false;
+    this.previousEventX = player.worldX;
+    this.previousEventY = player.worldY;
   }
 }
