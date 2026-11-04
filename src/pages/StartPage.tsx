@@ -30,7 +30,7 @@ export default function StartPage() {
   });
 
   return (
-    <div className="relative isolate flex min-h-screen w-full flex-col items-center gap-12 px-4 pt-20 pb-24">
+    <main className="relative isolate flex min-h-screen w-full flex-col items-center gap-12 px-4 pt-20 pb-24">
       <StartScene />
       <header className="flex flex-col items-center gap-4 text-center">
         <h1 className="text-4xl tracking-wide text-primary [text-shadow:6px_6px_0_#a83800,10px_10px_0_#0b0b14] md:text-6xl">
@@ -60,6 +60,6 @@ export default function StartPage() {
       <p className="absolute bottom-4 font-body text-2xl text-muted-foreground">
         W / S to choose · ENTER to select
       </p>
-    </div>
+    </main>
   );
 }

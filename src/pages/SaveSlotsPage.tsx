@@ -43,7 +43,7 @@ export default function SaveSlotsPage() {
   }
 
   return (
-    <div className="relative isolate flex min-h-screen w-full flex-col items-center gap-9 px-6 py-12 md:py-16">
+    <main className="relative isolate flex min-h-screen w-full flex-col items-center gap-9 px-6 py-12 md:py-16">
       <ScreenBackground src="/ui/menu-bg.png" />
 
       <div className="flex w-full max-w-3xl flex-col gap-9">
@@ -122,6 +122,6 @@ export default function SaveSlotsPage() {
           W / S to choose · ENTER to select · BACKSPACE to go back
         </p>
       </div>
-    </div>
+    </main>
   );
 }
