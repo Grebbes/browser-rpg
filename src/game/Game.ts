@@ -31,6 +31,7 @@ export class Game {
   private eventH = new EventHandler(
     this.input,
     this.tileM,
+    this.obj,
     (npc, text) => this.startDialogue(npc, text),
     (onBlack) => this.startTransition(onBlack),
     (i) => this.playSe(i),

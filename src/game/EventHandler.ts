@@ -1,26 +1,33 @@
-import { tileSize } from "./constants";
+import { maxWorldCol, maxWorldRow, tileSize } from "./constants";
 import { Entity, type Direction } from "./entities/Entity";
 import type { Input } from "./Input";
+import type { SuperObject } from "./objects/SuperObject";
 import { intersects, type Rect } from "./Rect";
 import type { TileManager } from "./tiles/TileManager";
 
 export class EventHandler {
   private input: Input;
   private tileM: TileManager;
+  private obj: (SuperObject | null)[];
   private startDialogue: (npc: Entity | null, text: string) => void;
   private startTransition: (onBlack: () => void) => void;
   private playSe: (i: number) => void;
   private eventRect: Rect = { x: 23, y: 23, width: 2, height: 2 };
+  private eventDone: boolean[][] = Array.from({ length: maxWorldCol }, () =>
+    Array(maxWorldRow).fill(false),
+  );
 
   constructor(
     input: Input,
     tileM: TileManager,
+    obj: (SuperObject | null)[],
     startDialogue: (npc: Entity | null, text: string) => void,
     startTransition: (onBlack: () => void) => void,
     playSe: (i: number) => void,
   ) {
     this.input = input;
     this.tileM = tileM;
+    this.obj = obj;
     this.startDialogue = startDialogue;
     this.startTransition = startTransition;
     this.playSe = playSe;
@@ -38,6 +45,9 @@ export class EventHandler {
     ) {
       this.healingFountain(player);
     }
+    if (this.hit(player, 20, 15, "left")) {
+      this.swordFalls(20, 15);
+    }
   }
 
   hit(
@@ -46,6 +56,7 @@ export class EventHandler {
     row: number,
     reqDirection: Direction | null,
   ): boolean {
+    if (this.eventDone[col][row] === true) return false;
     const playerRect: Rect = {
       x: player.worldX + player.solidArea.x,
       y: player.worldY + player.solidArea.y,
@@ -105,5 +116,16 @@ export class EventHandler {
       );
       player.life = player.maxLife;
     }
+  }
+
+  swordFalls(col: number, row: number) {
+    this.playSe(5);
+    this.tileM.mapTileNum[19][16] = 26;
+    this.obj[10] = null;
+    this.startDialogue(
+      null,
+      "The ground gives way!\nThe sword tumbles into the darkness below...",
+    );
+    this.eventDone[col][row] = true;
   }
 }
