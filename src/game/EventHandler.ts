@@ -16,6 +16,9 @@ export class EventHandler {
   private eventDone: boolean[][] = Array.from({ length: maxWorldCol }, () =>
     Array(maxWorldRow).fill(false),
   );
+  private previousEventX = 0;
+  private previousEventY = 0;
+  private canTouchEvent = true;
 
   constructor(
     input: Input,
@@ -34,19 +37,27 @@ export class EventHandler {
   }
 
   checkEvent(player: Entity) {
-    if (this.hit(player, 29, 28, null)) {
-      this.pitTrap(player, 29, 28);
+    const xDistance = Math.abs(player.worldX - this.previousEventX);
+    const yDistance = Math.abs(player.worldY - this.previousEventY);
+    const distance = Math.max(xDistance, yDistance);
+    if (distance > tileSize) {
+      this.canTouchEvent = true;
     }
-    if (
-      this.hit(player, 19, 31, "up") ||
-      this.hit(player, 19, 29, "down") ||
-      this.hit(player, 18, 30, "right") ||
-      this.hit(player, 20, 30, "left")
-    ) {
-      this.healingFountain(player);
-    }
-    if (this.hit(player, 20, 15, "left")) {
-      this.swordFalls(20, 15);
+    if (this.canTouchEvent) {
+      if (this.hit(player, 29, 28, null)) {
+        this.pitTrap(player, 29, 28);
+      }
+      if (
+        this.hit(player, 19, 31, "up") ||
+        this.hit(player, 19, 29, "down") ||
+        this.hit(player, 18, 30, "right") ||
+        this.hit(player, 20, 30, "left")
+      ) {
+        this.healingFountain(player);
+      }
+      if (this.hit(player, 20, 15, "left")) {
+        this.swordFalls(20, 15);
+      }
     }
   }
 
