@@ -1,14 +1,12 @@
 import PixelImage from "@/components/pixel/PixelImage";
+import { useGameStore } from "@/store/gameStore";
 type HeartKind = "full" | "half" | "blank";
 
-type Props = {
-  keys: number;
-  life: number;
-  maxLife: number;
-  message?: string | null;
-};
-
-export default function Hud({ keys, life, maxLife, message }: Props) {
+export default function Hud() {
+  const keys = useGameStore((s) => s.keys);
+  const life = useGameStore((s) => s.life);
+  const maxLife = useGameStore((s) => s.maxLife);
+  const message = useGameStore((s) => s.message);
   const hearts: HeartKind[] = [];
 
   for (let i = 0; i < maxLife / 2; i++) {

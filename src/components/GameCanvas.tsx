@@ -1,4 +1,3 @@
-import type { HudState } from "@/game/types";
 import { loadGame } from "@/services/saveService";
 import { loadSettings } from "@/services/settingService";
 import type { RefObject } from "react";
@@ -9,12 +8,11 @@ import styles from "./GameCanvas.module.css";
 
 type Props = {
   paused: boolean;
-  onHudChange: (hud: HudState) => void;
   gameRef: RefObject<Game | null>;
   slot: number;
 };
 
-function GameCanvas({ paused, onHudChange, gameRef, slot }: Props) {
+function GameCanvas({ paused, gameRef, slot }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -24,7 +22,7 @@ function GameCanvas({ paused, onHudChange, gameRef, slot }: Props) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const game = new Game(ctx, onHudChange);
+    const game = new Game(ctx);
     gameRef.current = game;
     game.start(loadGame(slot));
     game.applySettings(loadSettings());
@@ -33,7 +31,7 @@ function GameCanvas({ paused, onHudChange, gameRef, slot }: Props) {
       game.stop();
       gameRef.current = null;
     };
-  }, [onHudChange, gameRef, slot]);
+  }, [gameRef, slot]);
 
   useEffect(() => {
     if (paused) gameRef.current?.pause();
