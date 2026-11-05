@@ -5,21 +5,15 @@ import PauseMenu from "@/components/PauseMenu";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
 import SettingsOverlay from "@/components/SettingsOverlay";
 import type { Game } from "@/game/Game";
-import type { HudState } from "@/game/types";
 import { saveGame } from "@/services/saveService";
+import { useGameStore } from "@/store/gameStore";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
 export default function GamePage() {
   const [overlay, setOverlay] = useState<"none" | "pause" | "settings">("none");
   const paused = overlay !== "none";
-  const [hud, setHud] = useState<HudState>({
-    keys: 0,
-    life: 0,
-    maxLife: 0,
-    message: null,
-    dialogue: null,
-  });
+  const dialogue = useGameStore((s) => s.dialogue);
   const navigate = useNavigate();
   const gameRef = useRef<Game | null>(null);
   const [searchParams] = useSearchParams();
@@ -50,19 +44,9 @@ export default function GamePage() {
       <ScreenBackground src="/ui/game-bg.png" />
 
       <div className="relative pixel-border">
-        <GameCanvas
-          paused={paused}
-          onHudChange={setHud}
-          gameRef={gameRef}
-          slot={slot}
-        />
-        <Hud
-          keys={hud.keys}
-          life={hud.life}
-          maxLife={hud.maxLife}
-          message={hud.message}
-        />
-        <DialogBox text={hud.dialogue} />
+        <GameCanvas paused={paused} gameRef={gameRef} slot={slot} />
+        <Hud />
+        <DialogBox text={dialogue} />
         <PauseMenu
           open={overlay === "pause"}
           onResume={() => setOverlay("none")}

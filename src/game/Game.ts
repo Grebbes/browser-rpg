@@ -1,4 +1,5 @@
 import type { Settings } from "@/services/settingService";
+import { useGameStore } from "@/store/gameStore";
 import { AssetSetter } from "./AssetSetter";
 import { CollisionChecker } from "./CollisionChecker";
 import { screenHeight, screenWidth } from "./constants";
@@ -64,7 +65,6 @@ export class Game {
   private dialogueCharIndex = 0;
   private dialogueFrameCounter = 0;
   private readonly textDelay = 3;
-  private onHudChange: (hud: HudState) => void;
   private lastHud: HudState = {
     keys: 0,
     life: 0,
@@ -73,12 +73,8 @@ export class Game {
     dialogue: null,
   };
 
-  constructor(
-    ctx: CanvasRenderingContext2D,
-    onHudChange: (hud: HudState) => void,
-  ) {
+  constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
-    this.onHudChange = onHudChange;
     this.ctx.imageSmoothingEnabled = false;
   }
 
@@ -127,7 +123,7 @@ export class Game {
     if (save) this.loadSaveData(save);
     this.lastTime = performance.now();
     this.animationId = requestAnimationFrame(this.loop);
-    this.onHudChange({
+    useGameStore.getState().setHud({
       keys: this.player.hasKeys,
       life: this.player.life,
       maxLife: this.player.maxLife,
@@ -290,7 +286,7 @@ export class Game {
       hud.dialogue !== this.lastHud.dialogue
     ) {
       this.lastHud = hud;
-      this.onHudChange(hud);
+      useGameStore.getState().setHud(hud);
     }
   }
 
