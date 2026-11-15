@@ -161,7 +161,7 @@ public/
 
 ## Credits och licenser
 
-- Spelmekaniken bygger på RyiSnows serie [How to Make a 2D Game in Java](https://www.youtube.com/@RyiSnow). Inga av hans bilder, kartor eller ljud finns i repot.
+- Spelmekaniken är inspirerad av RyiSnows serie [How to Make a 2D Game in Java](https://www.youtube.com/@RyiSnow). Inga av hans bilder, kartor eller ljud finns i repot.
 - Hjälte, NPC, föremål, tiles och ökarta är egna, ritade med hjälp av Claude.
 - Musik och ljudeffekter är egna och syntetiserade.
 - Typsnitten [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) och [VT323](https://fonts.google.com/specimen/VT323) används under SIL Open Font License 1.1.
