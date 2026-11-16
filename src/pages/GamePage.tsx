@@ -43,7 +43,7 @@ export default function GamePage() {
       <h1 className="sr-only">Browser RPG</h1>
       <ScreenBackground src="/ui/game-bg.png" />
 
-      <div className="relative pixel-border">
+      <div className="relative w-full max-w-3xl pixel-border">
         <GameCanvas paused={paused} gameRef={gameRef} slot={slot} />
         <Hud />
         <DialogBox text={dialogue} />

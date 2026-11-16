@@ -1,4 +1,6 @@
 .canvas {
   display: block;
   image-rendering: pixelated;
+  width: 100%;
+  height: auto;
 }
