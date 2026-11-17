@@ -7,17 +7,17 @@ import { useBackKey } from "@/hooks/useBackKey";
 import { useNavigate } from "react-router";
 
 const quest = [
-  "Explore the map and find the 3 hidden keys.",
+  "Hooded figures took your teacher to this island.",
+  "Explore it and find the 3 hidden keys.",
   "Each key opens one locked door.",
-  "Behind the last door waits the treasure chest.",
-  "Find it to win the game!",
+  "Reach the chest behind the last door to win!",
 ];
 
 const items = [
   { name: "KEY", sprite: "key", text: "Opens one door" },
   { name: "DOOR", sprite: "door", text: "Locked. Needs a key" },
   { name: "BOOTS", sprite: "boots", text: "Makes you move faster" },
-  { name: "CHEST", sprite: "chest", text: "The treasure. You win!" },
+  { name: "CHEST", sprite: "chest", text: "You win!" },
 ];
 
 export default function HowToPlayPage() {

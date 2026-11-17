@@ -37,7 +37,7 @@ export default function StartPage() {
           Keeper's Isle
         </h1>
         <p className="bg-background px-3.5 py-1 font-body text-3xl text-[#f8d8b0]">
-          A treasure hunt adventure
+          A rescue adventure
         </p>
       </header>
 
