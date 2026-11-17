@@ -10,7 +10,7 @@ import { Input } from "./Input";
 import type { SuperObject } from "./objects/SuperObject";
 import { Sound } from "./Sound";
 import { TileManager } from "./tiles/TileManager";
-import type { HudState, SaveData } from "./types";
+import type { HudState, SaveData, TouchButton } from "./types";
 import { UI } from "./UI";
 
 export class Game {
@@ -154,6 +154,28 @@ export class Game {
     this.gameState = this.stateBeforePause;
 
     if (this.musicStarted) this.music.play();
+  }
+
+  setTouchButton(button: TouchButton, pressed: boolean) {
+    switch (button) {
+      case "up":
+        this.input.upPressed = pressed;
+        break;
+      case "down":
+        this.input.downPressed = pressed;
+        break;
+      case "left":
+        this.input.leftPressed = pressed;
+        break;
+      case "right":
+        this.input.rightPressed = pressed;
+        break;
+      case "a":
+        if (pressed) {
+          this.input.enterPressed = true;
+        }
+        break;
+    }
   }
 
   private startDialogue(npc: Entity | null, text: string) {
