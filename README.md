@@ -4,7 +4,7 @@ Ett top-down 2D-RPG i retrostil som körs i webbläsaren. Spelet är byggt med R
 
 Projektet är mitt examensarbete i frontendutbildningen. Spelmekaniken är inspirerad av RyiSnows tutorialserie _How to Make a 2D Game in Java_.
 
-**Spela:** publik länk kommer när Vercel-deployen är klar (issue #20).
+**Spela:** https://browser-rpg-teal.vercel.app
 
 ## Innehåll
 
