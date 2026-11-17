@@ -118,7 +118,7 @@ export default function SaveSlotsPage() {
           )}
         </div>
         <BackButton onClick={() => navigate("/")} />
-        <p className="text-center font-body text-2xl text-muted-foreground">
+        <p className="text-center font-body text-2xl text-muted-foreground pointer-coarse:hidden">
           W / S to choose · ENTER to select · BACKSPACE to go back
         </p>
       </div>
