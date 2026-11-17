@@ -4,6 +4,7 @@ import Hud from "@/components/Hud";
 import PauseMenu from "@/components/PauseMenu";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
 import SettingsOverlay from "@/components/SettingsOverlay";
+import TouchControls from "@/components/TouchControls";
 import type { Game } from "@/game/Game";
 import { saveGame } from "@/services/saveService";
 import { useGameStore } from "@/store/gameStore";
@@ -60,6 +61,12 @@ export default function GamePage() {
           onChange={(settings) => gameRef.current?.applySettings(settings)}
         />
       </div>
+
+      <TouchControls
+        onButton={(button, pressed) =>
+          gameRef.current?.setTouchButton(button, pressed)
+        }
+      />
 
       <p className="flex gap-10 font-body text-2xl text-muted-foreground">
         <span>WASD move</span>
