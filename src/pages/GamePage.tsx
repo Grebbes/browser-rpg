@@ -4,6 +4,7 @@ import Hud from "@/components/Hud";
 import PauseMenu from "@/components/PauseMenu";
 import ScreenBackground from "@/components/pixel/ScreenBackground";
 import SettingsOverlay from "@/components/SettingsOverlay";
+import TouchControls from "@/components/TouchControls";
 import type { Game } from "@/game/Game";
 import { saveGame } from "@/services/saveService";
 import { useGameStore } from "@/store/gameStore";
@@ -43,7 +44,7 @@ export default function GamePage() {
       <h1 className="sr-only">Browser RPG</h1>
       <ScreenBackground src="/ui/game-bg.png" />
 
-      <div className="relative pixel-border">
+      <div className="relative w-full max-w-3xl pixel-border">
         <GameCanvas paused={paused} gameRef={gameRef} slot={slot} />
         <Hud />
         <DialogBox text={dialogue} />
@@ -61,7 +62,14 @@ export default function GamePage() {
         />
       </div>
 
-      <p className="flex gap-10 font-body text-2xl text-muted-foreground">
+      <TouchControls
+        onButton={(button, pressed) =>
+          gameRef.current?.setTouchButton(button, pressed)
+        }
+        onPause={() => setOverlay("pause")}
+      />
+
+      <p className="flex gap-10 font-body text-2xl text-muted-foreground pointer-coarse:hidden">
         <span>WASD move</span>
         <span>ESC pause</span>
       </p>

@@ -22,3 +22,5 @@ export type SaveData = {
 
   removedObjects: number[];
 };
+
+export type TouchButton = "up" | "down" | "left" | "right" | "a";
