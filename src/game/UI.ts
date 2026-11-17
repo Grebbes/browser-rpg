@@ -45,7 +45,7 @@ export class UI {
         screenHeight / 2 - tileSize * 3,
       );
       ctx.fillText(
-        "and found the treasure!",
+        "and reached the chest!",
         screenWidth / 2,
         screenHeight / 2 - tileSize * 2.5,
       );
