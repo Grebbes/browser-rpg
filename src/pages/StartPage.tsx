@@ -57,7 +57,7 @@ export default function StartPage() {
         ))}
       </PixelPanel>
 
-      <p className="absolute bottom-4 font-body text-2xl text-muted-foreground">
+      <p className="absolute bottom-4 font-body text-2xl text-muted-foreground pointer-coarse:hidden">
         W / S to choose · ENTER to select
       </p>
     </main>
