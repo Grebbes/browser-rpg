@@ -66,9 +66,10 @@ export default function GamePage() {
         onButton={(button, pressed) =>
           gameRef.current?.setTouchButton(button, pressed)
         }
+        onPause={() => setOverlay("pause")}
       />
 
-      <p className="flex gap-10 font-body text-2xl text-muted-foreground">
+      <p className="flex gap-10 font-body text-2xl text-muted-foreground pointer-coarse:hidden">
         <span>WASD move</span>
         <span>ESC pause</span>
       </p>

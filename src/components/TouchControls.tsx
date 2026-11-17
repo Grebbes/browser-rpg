@@ -3,12 +3,13 @@ import PixelArrow from "./pixel/PixelArrow";
 
 type Props = {
   onButton: (button: TouchButton, pressed: boolean) => void;
+  onPause: () => void;
 };
 
 const padButton =
   "flex size-14 items-center justify-center bg-secondary text-foreground active:bg-primary";
 
-export default function TouchControls({ onButton }: Props) {
+export default function TouchControls({ onButton, onPause }: Props) {
   function handlers(button: TouchButton) {
     return {
       onPointerDown: () => onButton(button, true),
@@ -53,6 +54,13 @@ export default function TouchControls({ onButton }: Props) {
           <PixelArrow className="rotate-90" />
         </button>
       </div>
+      <button
+        type="button"
+        onClick={onPause}
+        className="min-h-11 bg-secondary px-4 text-xs text-foreground uppercase"
+      >
+        Pause
+      </button>
       <button
         type="button"
         aria-label="A, prata och välj"
