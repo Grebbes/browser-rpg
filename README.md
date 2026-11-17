@@ -1,4 +1,4 @@
-# Browser RPG
+# Keeper's Isle
 
 Ett top-down 2D-RPG i retrostil som körs i webbläsaren. Spelet är byggt med React, TypeScript och en vanlig HTML `<canvas>`, utan spelmotor. Runt spelet finns ett menylager i React med startsida, sparplatser, inställningar, pausmeny, HUD och dialogruta.
 

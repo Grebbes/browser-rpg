@@ -41,7 +41,7 @@ export default function GamePage() {
 
   return (
     <main className="relative isolate flex min-h-screen w-full flex-col items-center justify-center gap-7 px-4 py-8">
-      <h1 className="sr-only">Browser RPG</h1>
+      <h1 className="sr-only">Keeper's Isle</h1>
       <ScreenBackground src="/ui/game-bg.png" />
 
       <div className="relative w-full max-w-3xl pixel-border">
